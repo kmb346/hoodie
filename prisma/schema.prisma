@@ -1,0 +1,152 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int  @id @default(autoincrement())
+  password    String
+  first_name  String
+  last_name   String
+  email       String @unique
+  profile_pic String
+  created_on  DateTime @default(now())
+  updated_on  DateTime @updatedAt
+  last_login  DateTime
+  is_active   Boolean
+  students    Student[]
+}
+
+model Staff {
+  id          Int @id @default(autoincrement())
+  password    String
+  first_name  String
+  last_name   String
+  email       String @unique
+  role        String
+  profile_pic String
+  created_on  DateTime
+  last_login  DateTime
+  is_active   Boolean
+  classes     Class[]
+}
+
+model Student {
+  id          Int  @id @default(autoincrement())
+  password    String
+  user_id     Int
+  user        User  @relation(fields: [user_id], references: [id] )
+  role        String
+  first_name  String
+  last_name   String
+  birthdate   DateTime
+  grade       String
+  profile_pic String
+  created_on  DateTime @default(now())
+  updated_on  DateTime @updatedAt
+  last_login  DateTime
+  is_active   Boolean
+  records     Class_record[]
+  credits     Class_credit[]
+  events      Event[]
+}
+
+model Class {
+  id            Int  @id @default(autoincrement())
+  name          String
+  teacher_id    Int
+  teacher       Staff @relation(fields: [teacher_id], references: [id])
+  sessions      Class_session[]
+  records       Class_record[]
+  def_room_id   Int
+  def_room      Room @relation(fields: [def_room_id], references: [id])
+}
+
+model Location {
+  id            Int  @id @default(autoincrement())
+  name          String
+  postal_code   String
+  prefecture    String
+  city          String
+  address       String
+  building      String
+  phone         String
+  rooms         Room[]
+}
+
+model Room {
+  id            Int  @id @default(autoincrement())
+  name          String
+  location_id   Int
+  location      Location @relation(fields: [location_id], references: [id])
+  type          String
+  classes       Class[]
+  sessions      Class_session[]
+}
+
+model Class_session {
+  id            Int  @id @default(autoincrement())
+  class_id      Int
+  class         Class @relation(fields: [class_id], references: [id])
+  class_date    DateTime
+  start_time    DateTime
+  duration      Int
+  room_id       Int
+  room          Room @relation(fields: [room_id], references: [id])
+  credits       Class_credit[]
+  assignments   Assignment[]
+}
+
+model Class_record {
+  id              Int  @id @default(autoincrement())
+  class_id        Int
+  class           Class @relation(fields: [class_id], references: [id])
+  student_id      Int
+  student         Student @relation(fields: [student_id], references: [id])
+  attended        Boolean
+  early_late      Int
+  assignment      Boolean
+  assigment_score Float
+  note            String
+}
+
+model Class_credit {
+  id            Int  @id @default(autoincrement())
+  student_id    Int
+  student       Student @relation(fields: [student_id], references: [id])
+  session_id    Int
+  session       Class_session @relation(fields: [session_id], references: [id])
+  amount        Int
+  created_date  DateTime @default(now())
+  expiry_date   DateTime
+  used_date     DateTime
+  events        Event[]
+}
+
+model Assignment {
+  id            Int  @id @default(autoincrement())
+  name          String
+  session_id    Int
+  session       Class_session @relation(fields:[session_id], references: [id])
+  created_date  DateTime @default(now())
+  Due_date      DateTime
+  score         Float
+}
+
+model Event {
+  id            Int  @id @default(autoincrement())
+  type          String
+  student_id    Int
+  student       Student @relation(fields: [student_id], references: [id])
+  credit_id     Int
+  credit        Class_credit @relation(fields: [credit_id], references: [id])
+  created_date  DateTime @default(now())
+  updated_date  DateTime
+}
