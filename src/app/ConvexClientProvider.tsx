@@ -1,6 +1,5 @@
 "use client";
- 
-import { ConvexAuthNextjsProvider } from "@convex-dev/auth/nextjs";
+
 import { ConvexReactClient, ConvexProvider } from "convex/react";
 import { ReactNode } from "react";
 import { env } from "~/env";
