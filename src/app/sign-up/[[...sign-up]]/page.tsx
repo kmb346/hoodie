@@ -39,10 +39,12 @@ export default function Page() {
       // Set 'verifying' true to display second form
       // and capture the OTP code
       setVerifying(true)
-    } catch (err: unknown) {
+    } catch (err: any) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
-      if (isClerkAPIResponseError(err)) setErrors(err.errors);
+      if (isClerkAPIResponseError(err)) {
+        setErrors((err as { errors: ClerkAPIError[] }).errors);
+      }
       console.error(JSON.stringify(err, null, 2))
     }
   }
@@ -69,7 +71,7 @@ export default function Page() {
         // complete further steps.
         console.error(JSON.stringify(signUpAttempt, null, 2))
       }
-    } catch (err: unknown) {
+    } catch (err: any) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
       console.error('Error:', JSON.stringify(err, null, 2))
