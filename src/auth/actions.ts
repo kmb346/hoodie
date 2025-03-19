@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { signInSchema, signUpSchema } from "./schemas";
+import type { signInSchema, signUpSchema } from "./schemas";
 import { fetchQuery, fetchMutation } from "convex/nextjs";
 import { api } from "~/convex/_generated/api";
 import { comparePasswords, generateSalt, hashPassword } from "./core/passwordHasher";
