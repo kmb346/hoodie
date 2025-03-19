@@ -12,7 +12,7 @@ import { createUserSession, removeUserSession } from "./core/session";
 export async function signIn(formData: signInSchema) {
   const user = await fetchQuery(api.queries.user.getUserByEmail, { email: formData.email });
 
-  if (user == null || user.password == null || user.pwSalt == null) {
+  if (user == null || user?.password == null || user?.pwSalt == null) {
     return "Unable to sign in.";
   };
   
