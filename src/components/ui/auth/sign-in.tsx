@@ -14,8 +14,7 @@ import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
 import { signIn } from "~/auth/actions";
-import { signInSchema } from "~/auth/schemas";
-import { Infer } from "convex/values";
+import type { signInSchema } from "~/auth/schemas";
 
 export function SignInForm() {
   const [error, setError] = useState<string>();

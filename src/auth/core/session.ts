@@ -1,8 +1,8 @@
 import crypto from "crypto";
 import { fetchMutation, fetchQuery } from "convex/nextjs";
 import { api } from "~/convex/_generated/api";
-import { Id } from "~/convex/_generated/dataModel";
-import { Infer, v } from "convex/values";
+import { type Id } from "~/convex/_generated/dataModel";
+import { type Infer, v } from "convex/values";
 
 // Seven days in seconds
 const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7;
@@ -38,7 +38,7 @@ export async function createUserSession(
   
   await fetchMutation(api.mutations.session.createSession, ({ 
     sessionId: sessionid, 
-    userId: user.userId as Id<"user">,
+    userId: user.userId,
     role: user.role, 
     expiresAt: Date.now() + SESSION_EXPIRATION_SECONDS * 1000 
   }));
@@ -65,7 +65,7 @@ export function getUserFromSession(cookies: Pick<Cookies, "get">) {
 async function getUserSessionById(sessionId: string) {
   const user = await fetchQuery(api.queries.session.getSessionById, { sessionId: sessionId});
   
-  return user !== undefined ? user : null;
+  return user ?? user;
 }
 
 export async function removeUserSession(cookies: Pick<Cookies, "get" | "delete">) {

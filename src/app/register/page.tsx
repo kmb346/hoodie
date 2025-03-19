@@ -13,7 +13,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { signUp } from "~/auth/actions";
-import { signUpSchema } from "~/auth/schemas";
+import type { signUpSchema } from "~/auth/schemas";
 
 export default function RegisterForm() {
   

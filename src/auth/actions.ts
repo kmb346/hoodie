@@ -32,7 +32,6 @@ export async function signIn(formData: signInSchema) {
 export async function signUp(formData: signUpSchema) {
   
   const existingUser = await fetchQuery(api.queries.user.getUserByEmail, { email: formData.email });
-  console.log("Existing User :" + existingUser);
 
   if (existingUser != null) return "Account already exists with this email.";
 
