@@ -13,7 +13,12 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as crons from "../crons.js";
 import type * as http from "../http.js";
+import type * as mutations_session from "../mutations/session.js";
+import type * as mutations_user from "../mutations/user.js";
+import type * as queries_session from "../queries/session.js";
+import type * as queries_user from "../queries/user.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -24,7 +29,12 @@ import type * as http from "../http.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  crons: typeof crons;
   http: typeof http;
+  "mutations/session": typeof mutations_session;
+  "mutations/user": typeof mutations_user;
+  "queries/session": typeof queries_session;
+  "queries/user": typeof queries_user;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

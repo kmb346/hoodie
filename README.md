@@ -1,16 +1,11 @@
 ## TODO NEXT
 
-[x] - Clerk project initialization and setup
-[x]  - Create first test user using built-in sign-in form
-[ ] - Create custom sign-up form with additional user metadata (phone, address, etc.)
-[ ] - Create custom sign-in form
-[ ] - Add custom user metadata for clerk users
-[ ] - Create user roles (member, teacher, school admin, super admin)
-[ ] - How to create users with multiple roles? or create different roles for each scenario
-      ex. teacher/admin, teacher/user, teacher/admin/user, etc.
+[ ] - Custom Authentication
+[ ] - Top page (AI)
 
-## Make custom sign-up page
+## Custom Authentication process
+[x] - Register page redirect to top page if user logged in
+[x] - If user signed in, Sign-out button in nav bar
+[x] - Sign in function
+[x] - Logout function (delete session and session cookie)
 
-[x] - Initiate sign-up process by collecting details
-[x] - prepare the email address verification
-[ ] - Collect additional user information and store in convex DB

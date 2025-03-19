@@ -1,4 +1,3 @@
-import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
@@ -7,7 +6,9 @@ export default defineSchema({
     password: v.string(),
     first_name: v.string(),
     last_name: v.string(),
-    username: v.string(),
+    email: v.string(),
+    role: v.array(v.union(v.literal("user"), v.literal("teacher"), v.literal("admin"))),
+    pwSalt: v.string(),
     postal_code: v.optional(v.string()),
     prefecture: v.optional(v.string()),
     city: v.optional(v.string()),
@@ -15,24 +16,16 @@ export default defineSchema({
     emailVerified: v.optional(v.number()), // Assuming DateTime is a timestamp
     profile_pic: v.optional(v.string()),
     createdAt: v.number(), // Assuming DateTime is a timestamp
-    updatedAt: v.number(), // Assuming DateTime is a timestamp
+    updatedAt: v.optional(v.number()), // Assuming DateTime is a timestamp
     last_login: v.optional(v.number()), // Assuming DateTime is a timestamp
-    status: v.string(),
-    pwSalt: v.string(),
-  }).index("username", ["username"]),
-  role: defineTable({
-    name: v.string(),
-  }).index("name", ["name"]),
-  user_role: defineTable({
-    user_id: v.id("user"),
-    role_id: v.id("role"),
-  }).index("role_id_user_id", ["role_id", "user_id"]),
+    status: v.union(v.literal("active"), v.literal("inactive")),
+  }).index("email", ["email"]),
   session: defineTable({
     userId: v.id("user"),
+    role: v.array(v.union(v.literal("user"), v.literal("teacher"), v.literal("admin"))),
+    sessionId: v.string(),
     expiresAt: v.number(), // Assuming DateTime is a timestamp
-    createdAt: v.optional(v.number()), // Assuming DateTime is a timestamp
-    updatedAt: v.optional(v.number()), // Assuming DateTime is a timestamp
-  }).index("userId", ["userId"]),
+  }).index("sessionId", ["sessionId"]),
   verification_token: defineTable({
     identifier: v.string(),
     token: v.string(),
