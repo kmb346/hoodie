@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { set, z } from "zod";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -16,8 +15,6 @@ import {
 import { Input } from "~/components/ui/input";
 import { signUp } from "~/auth/actions";
 import { signUpSchema } from "~/auth/schemas";
-import { Infer } from "convex/values";
-
 
 export default function RegisterForm() {
   

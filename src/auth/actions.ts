@@ -1,10 +1,9 @@
 "use server";
 
-import { z } from "zod";
 import { redirect } from "next/navigation";
 import { signInSchema, signUpSchema } from "./schemas";
 import { fetchQuery, fetchMutation } from "convex/nextjs";
-import { api } from "convex/_generated/api";
+import { api } from "~/convex/_generated/api";
 import { comparePasswords, generateSalt, hashPassword } from "./core/passwordHasher";
 import { cookies } from "next/headers";
 import { createUserSession, removeUserSession } from "./core/session";
