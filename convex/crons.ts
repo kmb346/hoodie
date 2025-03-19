@@ -1,6 +1,5 @@
-/*
 import { cronJobs } from "convex/server";
-import { internal } from "convex/_generated/api";
+import { internal } from "./_generated/api";
 
 const crons = cronJobs();
 
@@ -11,4 +10,4 @@ crons.interval(
   { now: Date.now() }
 )
 
-export default crons;*/
+export default crons;
