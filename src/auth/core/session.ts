@@ -3,7 +3,6 @@ import { fetchMutation, fetchQuery } from "convex/nextjs";
 import { api } from "convex/_generated/api";
 import { Id } from "convex/_generated/dataModel";
 import { Infer, v } from "convex/values";
-import { deleteSessionBySessionId } from "convex/mutations/session";
 
 // Seven days in seconds
 const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7;
