@@ -8,9 +8,9 @@ export const getSessionById = query({
       .query("session")
       .withIndex("sessionId", (q) => q.eq("sessionId", args.sessionId))
       .first();
-    return {
+    return session ? {
       userId: session?.userId,
       role: session?.role,
-    };
+    } : null;
   }
 });

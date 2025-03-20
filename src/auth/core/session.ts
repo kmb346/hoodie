@@ -65,7 +65,7 @@ export function getUserFromSession(cookies: Pick<Cookies, "get">) {
 async function getUserSessionById(sessionId: string) {
   const user = await fetchQuery(api.queries.session.getSessionById, { sessionId: sessionId});
   
-  return user ?? user;
+  return user ? user : null;
 }
 
 export async function removeUserSession(cookies: Pick<Cookies, "get" | "delete">) {

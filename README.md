@@ -1,11 +1,10 @@
 ## TODO NEXT
 
-[ ] - Custom Authentication
+[x] - Custom Authentication
+[ ] - Role-based authorization
 [ ] - Top page (AI)
+[ ] - CI setup (.gihub/workflows/ci.yaml)
 
-## Custom Authentication process
-[x] - Register page redirect to top page if user logged in
-[x] - If user signed in, Sign-out button in nav bar
-[x] - Sign in function
-[x] - Logout function (delete session and session cookie)
+## Custom Authentication
+[ ] - 
 

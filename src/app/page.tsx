@@ -11,7 +11,7 @@ import { getCurrentUser } from "~/auth/currentUser";
 
 export default async function HomePage() {
 
-  const fullUser = await getCurrentUser();
+  const fullUser = await getCurrentUser({withFullUser: true});
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
@@ -27,7 +27,7 @@ export default async function HomePage() {
       ) : (
         <Card>
           <CardHeader>
-            <CardTitle>User:  {fullUser.userId}</CardTitle>
+            <CardTitle>User:  {fullUser.first_name} {fullUser.last_name}</CardTitle>
           </CardHeader>
           <CardFooter className="flex gap-4">
             <Button asChild variant="outline">
