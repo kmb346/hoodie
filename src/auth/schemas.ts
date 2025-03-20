@@ -1,5 +1,4 @@
-import { z } from "zod";
-import { Infer, v } from "convex/values";
+import { type Infer, v } from "convex/values";
 import { brandedString } from "convex-helpers/validators";
 
 const emailValidator = brandedString("email");
