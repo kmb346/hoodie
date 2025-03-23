@@ -35,7 +35,7 @@ export async function createUserSession(
   cookies: Cookies
 ) {
 
-  const sessionId = await bcrypt.genSalt(10) as string;
+  const sessionId = await bcrypt.genSalt(10);
   
   await fetchMutation(api.mutations.session.createSession, ({ 
     sessionId: sessionId, 
