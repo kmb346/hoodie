@@ -1,5 +1,4 @@
-import crypto from "crypto";
-
+import bcrypt from "bcryptjs";
 import { fetchMutation, fetchQuery } from "convex/nextjs";
 import { api } from "~/convex/_generated/api";
 import { type Id } from "~/convex/_generated/dataModel";
@@ -35,7 +34,6 @@ export async function createUserSession(
   user: UserSession, 
   cookies: Cookies
 ) {
-  const bcrypt = require("bcryptjs");
 
   const sessionId = await bcrypt.genSalt(10) as string;
   
