@@ -1,4 +1,5 @@
 import crypto from "crypto";
+
 import { fetchMutation, fetchQuery } from "convex/nextjs";
 import { api } from "~/convex/_generated/api";
 import { type Id } from "~/convex/_generated/dataModel";
@@ -7,7 +8,7 @@ import { type Infer, v } from "convex/values";
 // Seven days in seconds
 const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7;
 const COOKIE_SESSION_KEY = "session-id";
-const roles = v.array(v.union(v.literal("user"), v.literal("teacher"), v.literal("admin")));
+const roles = v.union(v.literal("user"), v.literal("teacher"), v.literal("admin"));
 
 type UserSession = {
   userId: Id<"user">;
@@ -34,16 +35,18 @@ export async function createUserSession(
   user: UserSession, 
   cookies: Cookies
 ) {
-  const sessionid = crypto.randomBytes(512).toString("hex").normalize();
+  const bcrypt = require("bcryptjs");
+
+  const sessionId = await bcrypt.genSalt(10) as string;
   
   await fetchMutation(api.mutations.session.createSession, ({ 
-    sessionId: sessionid, 
+    sessionId: sessionId, 
     userId: user.userId,
     role: user.role, 
     expiresAt: Date.now() + SESSION_EXPIRATION_SECONDS * 1000 
   }));
 
-  setCookie(sessionid, cookies);
+  setCookie(sessionId, cookies);
 }
 
 function setCookie(sessionId: string, cookies: Pick<Cookies, "set">) {
@@ -68,6 +71,19 @@ async function getUserSessionById(sessionId: string) {
   return user ?? user;
 }
 
+export async function updateUserSessionData(
+  user: UserSession, 
+  cookies: Pick<Cookies, "get">
+) {
+  const sessionId = cookies.get(COOKIE_SESSION_KEY)?.value;
+  if (sessionId == null) return null;
+
+  await fetchMutation(
+    api.mutations.session.updateSessionRole, 
+    {sessionId: sessionId, role: user.role, expires: Date.now() + SESSION_EXPIRATION_SECONDS * 1000 }
+  );
+}
+
 export async function removeUserSession(cookies: Pick<Cookies, "get" | "delete">) {
   const sessionId = cookies.get(COOKIE_SESSION_KEY)?.value;
   if (sessionId == null) return null;
@@ -76,4 +92,5 @@ export async function removeUserSession(cookies: Pick<Cookies, "get" | "delete">
   cookies.delete(COOKIE_SESSION_KEY);
 
 }
+
 

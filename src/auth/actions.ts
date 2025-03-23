@@ -19,12 +19,11 @@ export async function signIn(formData: signInSchema) {
   const passwordsMatch = await comparePasswords({
     userPassword: user.password,
     unhashedPassword: formData.password,
-    salt: user.pwSalt
   });
 
   if (!passwordsMatch) return "Unable to sign in.";
 
-  await createUserSession({ userId: user._id, role: ["user"] }, await cookies());
+  await createUserSession({ userId: user._id, role: "user" }, await cookies());
 
   redirect("/");
 }
@@ -36,7 +35,7 @@ export async function signUp(formData: signUpSchema) {
   if (existingUser != null) return "Account already exists with this email.";
 
   try {
-    const salt = generateSalt();
+    const salt = await generateSalt();
     const pwd = await hashPassword(formData.password, salt);
 
     const user = await fetchMutation(api.mutations.user.createUser,
@@ -53,10 +52,10 @@ export async function signUp(formData: signUpSchema) {
         last_login: Date.now(),
       }
     );
-
+   
     if (user == null) return "Unable to create account.";
-    await createUserSession({ userId: user, role: ["user"] }, await cookies());
-  } catch {
+    await createUserSession({ userId: user, role: "user" }, await cookies());
+  } catch (e) {
     return "Unable to create account.";
   }
 

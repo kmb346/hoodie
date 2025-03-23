@@ -22,7 +22,7 @@ export default defineSchema({
   }).index("email", ["email"]),
   session: defineTable({
     userId: v.id("user"),
-    role: v.array(v.union(v.literal("user"), v.literal("teacher"), v.literal("admin"))),
+    role: v.union(v.literal("user"), v.literal("teacher"), v.literal("admin")),
     sessionId: v.string(),
     expiresAt: v.number(), // Assuming DateTime is a timestamp
   }).index("sessionId", ["sessionId"]),

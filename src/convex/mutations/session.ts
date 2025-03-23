@@ -5,7 +5,7 @@ export const createSession = mutation({
   args: {
     sessionId: v.string(), 
     userId: v.id("user"),
-    role: v.array(v.union(v.literal("user"), v.literal("teacher"), v.literal("admin"))),
+    role: v.union(v.literal("user"), v.literal("teacher"), v.literal("admin")),
     expiresAt: v.number()
   },
   handler: async (ctx, args) => {
@@ -28,6 +28,27 @@ export const deleteSessionById = mutation({
     await ctx.db.delete(args.sessionId);
   }
 });
+
+export const updateSessionRole = mutation({
+  args: { 
+    sessionId: v.string(), 
+    role: v.union(v.literal("user"), v.literal("teacher"), v.literal("admin")),
+    expires: v.number() 
+  },
+  handler: async (ctx, args) => {
+    const session = await ctx.db
+      .query("session")
+      .withIndex("sessionId", (q) => q.eq("sessionId", args.sessionId))
+      .unique();
+
+    if (!session) {
+      console.warn("Session not found");
+      return;
+    }
+
+    await ctx.db.patch(session._id, { role: args.role, expiresAt: args.expires });
+  }
+})
 
 export const deleteSessionBySessionId = mutation({
   args: { sessionId: v.string() },

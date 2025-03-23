@@ -1,12 +1,32 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse, type NextRequest } from 'next/server';
+import { getUserFromSession } from './auth/core/session';
 
-const isPublicRoute = createRouteMatcher(['/sign-in(.*)','/sign-up(.*)', '/', '/register'])
+const privateRoutes = ["/private"];
+const adminRoutes = ["/admin"];
 
-export default clerkMiddleware(async (auth, request) => {
-  if (!isPublicRoute(request)) {
-    await auth.protect();
+export async function middleware(req: NextRequest) {
+  const response = await middlewareAuth(req) ?? NextResponse.next();
+  return response;
+}
+
+async function middlewareAuth(req: NextRequest) {
+  if (privateRoutes.includes(req.nextUrl.pathname)) {
+    const user = await getUserFromSession(req.cookies);
+    if (user == null) {
+      return NextResponse.redirect(new URL("/sign-in", req.url));
+    }
   }
-});
+
+  if (adminRoutes.includes(req.nextUrl.pathname)) {
+    const user = await getUserFromSession(req.cookies);
+    if (user == null) {
+      return NextResponse.redirect(new URL("/sign-in", req.url));
+    }
+    if (!user.role.includes("admin")) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+  }
+}
  
 export const config = {
   // The following matcher runs middleware on all routes
