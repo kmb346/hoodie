@@ -21,3 +21,12 @@ export const getUserByEmail = query({
   }
 });
 
+export const getUserRoles = query({
+  args: { id: v.id("user") },
+  handler: async (ctx, args) => {
+    const user = await ctx.db.get(args.id);
+
+    return user?.role;
+  }
+})
+
