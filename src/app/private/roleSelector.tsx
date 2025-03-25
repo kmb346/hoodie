@@ -38,7 +38,7 @@ export function RoleSelector(
         <SelectValue placeholder={sessionRole} />
       </SelectTrigger>
       <SelectContent>
-        {userRoles && userRoles.map((role) => (
+        {userRoles?.map((role) => (
           <SelectItem key={role} value={role}>{role}</SelectItem>
         ))}
       </SelectContent>
