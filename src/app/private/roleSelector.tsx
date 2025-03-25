@@ -25,10 +25,10 @@ export function RoleSelector(
     
     const [userRole, setRole] = useState(sessionRole);
   
-    useEffect(() => {
-      "use server";
-      console.log("VALUE CHANGED TO: " + userRole)
-      toggleRole(userRole as Roles );
+    useEffect(()=> {
+      toggleRole(userRole as Roles).catch(error => {
+        console.error("Failed with error: " + error);
+      });
     },[userRole])
   
 
