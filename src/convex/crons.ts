@@ -7,7 +7,7 @@ crons.interval(
   "clearExpiredSessions",
   { hours: 1},
   internal.mutations.session.deleteExpiredSessions,
-  { now: Date.now() }
-)
+  {}
+);
 
 export default crons;

@@ -69,9 +69,8 @@ export const deleteSessionBySessionId = mutation({
 });
 
 export const deleteExpiredSessions = internalMutation({
-  args: { now: v.number() },
   handler: async (ctx, args) => {
-    const now = args.now;
+    const now = Date.now();
     const expiredTokens = await ctx.db
       .query("session")
       .filter((q) => q.lt(q.field("expiresAt"), now))
