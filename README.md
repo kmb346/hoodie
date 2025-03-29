@@ -2,7 +2,7 @@
 
 [x] - Custom Authentication
 [x] - Role-based authorization
-[ ] - CI setup (.gihub/workflows/ci.yaml)
+[x] - CI setup (.gihub/workflows/ci.yaml)
 [ ] - Admin dashboard
 [ ] - Teacher dashboard
 [ ] - Top page (AI)
@@ -10,6 +10,12 @@
 
 
 ## ADMIN DASHBOARD
-[ ] - authorization for admin users only
+[x] - admin folder and directories
+[ ] - authorization for admin users only on each page
 [ ] - Create top page
 [ ] - Create Teachers page
+
+Authorization for admin users on each page
+
+[ ] - get session in layout
+[ ] - if not authorized, redirect to top page
