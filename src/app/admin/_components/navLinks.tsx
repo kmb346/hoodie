@@ -12,9 +12,9 @@ import {
 
 const links = [
   { name: "Home", href: "/admin", icon: HomeIcon },
-  { name: "Users", href: "/students", icon: UserGroupIcon },
-  { name: "Classes", href: "/classes", icon: AcademicCapIcon },
-  { name: "Locations", href: "/locations", icon: BuildingStorefrontIcon },
+  { name: "Students", href: "/admin/students", icon: UserGroupIcon },
+  { name: "Classes", href: "/admin/classes", icon: AcademicCapIcon },
+  { name: "Locations", href: "/admin/locations", icon: BuildingStorefrontIcon },
 ];
 
 export default function NavLinks() {

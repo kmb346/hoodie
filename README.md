@@ -7,7 +7,8 @@
 [ ] - Teacher dashboard
 [ ] - Top page (AI)
 
-
+## LOGIN fix
+[x] - set session role in order of succession: admin --> teacher --> user
 
 ## ADMIN DASHBOARD
 [x] - admin folder and directories
@@ -15,7 +16,10 @@
 [ ] - Create top page
 [ ] - Create Teachers page
 
+
+
 Authorization for admin users on each page
 
 [ ] - get session in layout
 [ ] - if not authorized, redirect to top page
+[ ] - auth check every time data is retrieved

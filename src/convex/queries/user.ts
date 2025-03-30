@@ -15,9 +15,14 @@ export const getUserByEmail = query({
     const user = await ctx.db
       .query("user")
       .withIndex("email", (q) => q.eq("email", args.email))
-      .collect();
+      .first();
 
-    return user[0];
+    return user ? {
+      _id: user?._id,
+      roles: user?.role,
+      password: user?.password,
+      pwSalt: user?.pwSalt
+    } : null;
   }
 });
 

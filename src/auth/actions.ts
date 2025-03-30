@@ -7,6 +7,7 @@ import { api } from "~/convex/_generated/api";
 import { comparePasswords, generateSalt, hashPassword } from "./core/passwordHasher";
 import { cookies } from "next/headers";
 import { createUserSession, removeUserSession } from "./core/session";
+import { Roles } from "./schemas";
 
 
 export async function signIn(formData: signInSchema) {
@@ -21,9 +22,21 @@ export async function signIn(formData: signInSchema) {
     unhashedPassword: formData.password,
   });
 
+  const getHighestRole = (rolesArray: Roles[]) => {
+      if (rolesArray.includes("admin")) { 
+        return "admin"; 
+      } else if (rolesArray.includes("teacher")) {
+        return "teacher";
+      } else {
+        return "user";
+      }
+    }
+
+  const role = getHighestRole(user?.roles);
+
   if (!passwordsMatch) return "Unable to sign in.";
 
-  await createUserSession({ userId: user._id, role: "user" }, await cookies());
+  await createUserSession({ userId: user._id, role: role ?? "user" }, await cookies());
 
   redirect("/");
 }
