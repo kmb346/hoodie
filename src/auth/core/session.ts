@@ -3,6 +3,7 @@ import { fetchMutation, fetchQuery } from "convex/nextjs";
 import { api } from "~/convex/_generated/api";
 import { type Id } from "~/convex/_generated/dataModel";
 import { type Infer, v } from "convex/values";
+import { cookies } from "next/headers";
 
 // Seven days in seconds
 const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7;
@@ -89,6 +90,13 @@ export async function removeUserSession(cookies: Pick<Cookies, "get" | "delete">
   await fetchMutation(api.mutations.session.deleteSessionBySessionId, {sessionId: sessionId});
   cookies.delete(COOKIE_SESSION_KEY);
 
+}
+
+export async function verifyAdmin() {
+  const cookie = ((await cookies()).get(COOKIE_SESSION_KEY)?.value)
+  const user = await getUserSessionById(cookie ?? "");
+
+  return user?.role == "admin";
 }
 
 

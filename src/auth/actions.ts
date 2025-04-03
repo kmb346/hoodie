@@ -38,7 +38,11 @@ export async function signIn(formData: signInSchema) {
 
   await createUserSession({ userId: user._id, role: role ?? "user" }, await cookies());
 
-  redirect("/");
+  if(role == "admin") {
+    redirect("/admin");
+  } else { 
+    redirect("/");
+  }
 }
 
 export async function signUp(formData: signUpSchema) {

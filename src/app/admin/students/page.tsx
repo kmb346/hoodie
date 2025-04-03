@@ -1,7 +1,7 @@
 export default function Page() {
   return ( 
     <div>
-      <p>HELLO WORLD!</p>
+      <p>HELLO Students!</p>
     </div>
   )
 }

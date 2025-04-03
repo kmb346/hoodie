@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   HomeIcon,
+  UserIcon,
   UserGroupIcon,
   BuildingStorefrontIcon,
   AcademicCapIcon             
@@ -13,6 +14,7 @@ import {
 const links = [
   { name: "Home", href: "/admin", icon: HomeIcon },
   { name: "Students", href: "/admin/students", icon: UserGroupIcon },
+  { name: "Staff", href: "/admin/staff", icon: UserIcon },
   { name: "Classes", href: "/admin/classes", icon: AcademicCapIcon },
   { name: "Locations", href: "/admin/locations", icon: BuildingStorefrontIcon },
 ];
@@ -21,7 +23,7 @@ export default function NavLinks() {
   const pathname = usePathname();
 
   return (
-    <>
+    <div className="flex h-full">
       {links.map((link) => {
         const LinkIcon = link.icon;
         return (
@@ -35,6 +37,6 @@ export default function NavLinks() {
           </Link>
         )
       })}
-    </>
+    </div>
   );
 }

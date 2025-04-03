@@ -7,14 +7,17 @@
 [ ] - Teacher dashboard
 [ ] - Top page (AI)
 
-## LOGIN fix
-[x] - set session role in order of succession: admin --> teacher --> user
 
-## ADMIN DASHBOARD
-[x] - admin folder and directories
-[ ] - authorization for admin users only on each page
-[ ] - Create top page
-[ ] - Create Teachers page
+## Staff page
+[ ] - Add "Create Teacher" button
+[x] - Teacher list table
+[ ] - Edit teacher dialog
+[ ] - Sort on teacher list
+
+!! ## Convex queries
+[x] - Finish getUsersByRole query
+[x] - Finish getStaffUsers query
+[ ] - createAdminUser query
 
 
 

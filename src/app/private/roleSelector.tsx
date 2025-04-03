@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "~/components/ui/select";
-import { toggleRole } from "~/actions/toggleRole";
+import { toggleRole } from "~/actions/user/toggleRole";
 import { Roles } from "~/auth/schemas";
 
 const roles = v.array(v.union(v.literal("user"), v.literal("teacher"), v.literal("admin")));

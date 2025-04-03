@@ -19,7 +19,7 @@ export default defineSchema({
     updatedAt: v.optional(v.number()), // Assuming DateTime is a timestamp
     last_login: v.optional(v.number()), // Assuming DateTime is a timestamp
     status: v.union(v.literal("active"), v.literal("inactive")),
-  }).index("email", ["email"]),
+  }).index("email", ["email"]).index("roles", ["role"]),
   session: defineTable({
     userId: v.id("user"),
     role: v.union(v.literal("user"), v.literal("teacher"), v.literal("admin")),
