@@ -1,7 +1,6 @@
 import { type Infer, v } from "convex/values";
 import { brandedString } from "convex-helpers/validators";
 import { type Id } from "~/convex/_generated/dataModel";
-import { optional } from "zod";
 
 const emailValidator = brandedString("email");
 const stringValidator = v.string();
