@@ -9,15 +9,16 @@
 
 
 ## Staff page
-[ ] - Add "Create Teacher" button
+[x] - Add "Create Teacher" button
+[ ] - Add teacher dialog
 [x] - Teacher list table
 [ ] - Edit teacher dialog
 [ ] - Sort on teacher list
 
-!! ## Convex queries
+!! ## Convex queries/mutations
 [x] - Finish getUsersByRole query
 [x] - Finish getStaffUsers query
-[ ] - createAdminUser query
+[ ] - createAdminUser mutations
 
 
 
