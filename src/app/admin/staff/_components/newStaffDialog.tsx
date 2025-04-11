@@ -25,7 +25,6 @@ import { Input } from "~/components/ui/input";
 import { type AdminUser } from "~/actions/schemas";
 import { useRouter } from "next/navigation";
 import { createStaffUser } from "~/actions/staff/mutations";
-import { Label } from "~/components/ui/label";
 import { Checkbox } from "~/components/ui/checkbox";
 
 export function NewStaffDialog() {
@@ -39,15 +38,40 @@ export function NewStaffDialog() {
   });
 
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router =  useRouter();
 
   async function onSubmit(data: AdminUser) {
-    
-    console.log(data);
-    const user = await createStaffUser(data);
-    if (user) {
-      setOpen(false);
-      router.refresh();
+    setIsSubmitting(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      if (!data.first_name || !data.last_name || !data.email || !data.role.length) {
+        setError("Missing required fields");
+        setIsSubmitting(false);
+        return;
+      }
+
+      const user = await createStaffUser(data);
+      if (user) {
+        setSuccess("Staff member created successfully");
+        form.reset();
+        
+        setTimeout(() => {
+          setOpen(false);
+          router.refresh();
+          setSuccess(null);
+        },2000);
+      } else {
+        setError("Failed to create staff member");
+      }
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "An error occurred while creating the staff member");
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -69,41 +93,48 @@ export function NewStaffDialog() {
             Add a new staff member to the database
           </DialogDescription>
         </DialogHeader>
+
+        {error && <div className="text-red-500 mb-4">{error}</div>}
+        {success && <div className="text-green-500 mb-4">{success}</div>}
+
         <Form {...form}>
           <form 
             onSubmit={form.handleSubmit(onSubmit)} 
             className="space-y-4"
           >
             <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <FormField
-                  control={form.control}
-                  name="first_name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>First Name</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="grid gap-2">
-                <FormField
-                  control={form.control}
-                  name="last_name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Last Name</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            <h4 className="font-semibold">Required Fields</h4>
+              <div className="flex gap-4">
+                <div className="grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="first_name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>First Name <span className="text-red-500">*</span></FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="last_name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Last Name <span className="text-red-500">*</span></FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
               <div className="grid gap-2">
                 <FormField
@@ -111,7 +142,7 @@ export function NewStaffDialog() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>Email <span className="text-red-500">*</span></FormLabel>
                       <FormControl>
                         <Input type="email" {...field} />
                       </FormControl>
@@ -121,7 +152,7 @@ export function NewStaffDialog() {
                 />
               </div>
               <div className="grid gap-2">
-                <FormLabel>Role</FormLabel>
+                <FormLabel>Role <span className="text-red-500">*</span></FormLabel>
                 {roles.map((role) => (
                   <FormField
                     key={role.id}
@@ -157,11 +188,78 @@ export function NewStaffDialog() {
                 <FormMessage />
               </div>
             </div>
+            <div className="grid gap-4 py-4">
+              <h4 className="font-semibold">Optional Fields</h4>
+              <div>
+                <FormField
+                  control={form.control}
+                  name="postal_code"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Postal Code</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div>
+                <FormField
+                  control={form.control}
+                  name="prefecture"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Prefecture</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div>
+                <FormField
+                  control={form.control}
+                  name="city"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>City</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div>
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Address</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
             <DialogFooter>
-              <Button type="submit">Add Staff</Button>
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Adding..." : "Add Staff"}
+              </Button>
             </DialogFooter>
           </form>
-          
         </Form>
       </DialogContent>
     </Dialog>

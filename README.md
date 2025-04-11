@@ -10,7 +10,9 @@
 
 ## Staff page
 [x] - Add "Create Teacher" button
-[ ] - Add teacher dialog
+[x] - Add teacher dialog
+[x] - Add optional fields to teacher dialog
+[x] - form success/error handling
 [x] - Teacher list table
 [ ] - Edit teacher dialog
 [ ] - Sort on teacher list
@@ -18,12 +20,19 @@
 !! ## Convex queries/mutations
 [x] - Finish getUsersByRole query
 [x] - Finish getStaffUsers query
-[ ] - createAdminUser mutations
+[x] - createAdminUser mutations
+[x] - createLocation mutation
+[x] - createAssignment mutation
+[x] - createStudent mutation
+[x] - createClass mutation
+[x] - createClassSession mutation
+[x] - createRoom mutation
+[x] - createClassCredit mutation
 
 
+!! ## createAdminUser mutation additional steps:
 
-Authorization for admin users on each page
-
-[ ] - get session in layout
-[ ] - if not authorized, redirect to top page
-[ ] - auth check every time data is retrieved
+[ ] - Create Password salt for user
+[ ] - set status as "Active"
+[ ] - Send password setup link -- Resend??
+[ ] - 
