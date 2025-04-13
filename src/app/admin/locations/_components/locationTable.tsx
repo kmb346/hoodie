@@ -30,6 +30,7 @@ export function LocationTable({ locations }: { locations: Location[] }) {
               <TableCell>{location.phone}</TableCell>
               <TableCell>{location.prefecture}</TableCell>
               <TableCell>{location.city}</TableCell>
+              <TableCell>{location.postal_code}</TableCell>
               <TableCell>{location.address}</TableCell>
               <TableCell>{location.building}</TableCell>
             </TableRow>

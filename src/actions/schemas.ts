@@ -24,8 +24,24 @@ const grades = v.union(
   v.literal("10"), 
   v.literal("11"), 
   v.literal("12"), 
-  v.literal("Adult")
+  v.literal("Adult"),
+  v.literal("Other")
 );
+
+export const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
 
 export type Grade = Infer<typeof grades>;
 

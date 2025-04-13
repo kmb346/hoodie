@@ -145,7 +145,8 @@ export function NewLocationDialog() {
             </div>
             <div className="grid gap-4 py-4">
               <h4 className="font-semibold">Optional Fields</h4>
-              <FormLabel>Postal Code</FormLabel>
+              <div>
+                <FormLabel>Postal Code</FormLabel>
                 <div className="flex items-center gap-2">
                   <Controller
                     name="postalPart1"
@@ -157,7 +158,7 @@ export function NewLocationDialog() {
                         maxLength={3}
                         placeholder="123"
                         onChange={(e) => {
-                          const value = e.target.value.replace(/[^0-9]/g, "").toUpperCase();
+                          const value = e.target.value.replace(/[^0-9]/g, "");
                           field.onChange(value.slice(0, 3));
                           // Auto-focus to second input when first part is complete
                           if (value.length >= 3 && postalPart2Ref.current) {
@@ -179,13 +180,14 @@ export function NewLocationDialog() {
                         maxLength={4}
                         placeholder="4567"
                         onChange={(e) => {
-                          const value = e.target.value.replace(/[^0-9]/g, "").toUpperCase();
+                          const value = e.target.value.replace(/[^0-9]/g, "");
                           field.onChange(value.slice(0, 4));
                         }}
                       />
                     )}
                   />
                 </div>
+              </div>
               <div>
                 <FormField
                   control={form.control}
@@ -232,6 +234,21 @@ export function NewLocationDialog() {
                 />
               </div>
             </div>
+            <div>
+                <FormField
+                  control={form.control}
+                  name="building"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Building</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             <DialogFooter>
               <Button
                 type="submit"

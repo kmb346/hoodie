@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -29,7 +29,7 @@ import {
 } from "~/components/ui/select";
 import { UserIcon } from '@heroicons/react/24/solid';
 import { Input } from "~/components/ui/input";
-import { type Student } from "~/actions/schemas";
+import { type Student, MONTHS } from "~/actions/schemas";
 import { useRouter } from "next/navigation";
 import { createStudent } from "~/actions/student/mutations";
 
@@ -51,6 +51,12 @@ export function NewStudentDialog() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router =  useRouter();
 
+  //For birthdate calculation
+  const [selectedYear, setSelectedYear] = useState<string>("");
+  const [selectedMonth, setSelectedMonth] = useState<string>("");
+  const [selectedDay, setSelectedDay] = useState<string>("");
+  const [daysInMonth, setDaysInMonth] = useState<number[]>([]);
+
   const gradeArray = [
     "Pre-k",
     "K",
@@ -66,8 +72,40 @@ export function NewStudentDialog() {
     "10",
     "11",
     "12",
-    "Adult"
+    "Adult",
+    "Other"
   ];
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from(
+    { length: 100 },
+    (_, i) => (currentYear - i).toString()
+  );
+
+  // Update days in month when year and month change
+  useEffect(() => {
+    if (selectedYear && selectedMonth) {
+      const year = parseInt(selectedYear);
+      const month = parseInt(selectedMonth);
+      const daysCount = new Date(year, month, 0).getDate();
+      setDaysInMonth(Array.from({ length: daysCount }, (_, i) => i + 1));
+    }
+  }, [selectedYear, selectedMonth]);
+
+  // Update birthdate in form when date components change
+  useEffect(() => {
+    if (selectedYear && selectedMonth && selectedDay) {
+      const year = parseInt(selectedYear);
+      const month = parseInt(selectedMonth);
+      const day = parseInt(selectedDay);
+
+      // Convert date to timestamp
+      const date = new Date(year, month - 1, day);
+      const timestamp = date.getTime();
+
+      form.setValue("birthdate", timestamp);
+    }
+  },[selectedYear, selectedMonth, selectedDay]);
 
   async function onSubmit(data: Student) {
     setIsSubmitting(true);
@@ -157,7 +195,6 @@ export function NewStudentDialog() {
                 </div>
               </div>
               <h4 className="font-semibold">Optional Fields</h4>
-              <div className="flex gap-x-2">
                 <div>
                   <FormField
                     control={form.control}
@@ -199,7 +236,75 @@ export function NewStudentDialog() {
                     )}
                   />
                 </div>
-              </div>
+                <div>
+                  <FormField
+                    control={form.control}
+                    name="birthdate"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>Birthdate</FormLabel>
+                        <div className="flex items-center gap-2">
+                          {/* Year Select */}
+                          <Select
+                            value={selectedYear}
+                            onValueChange={setSelectedYear}
+                          >
+                            <SelectTrigger className="w-[110px]">
+                              <SelectValue placeholder="Year" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {years.map((year) => (
+                                <SelectItem key={year} value={year}>
+                                  {year}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          {/* Month Select */}
+                          <Select
+                            value={selectedMonth}
+                            onValueChange={setSelectedMonth}
+                          >
+                            <SelectTrigger className="w-[110px]">
+                              <SelectValue placeholder="Month" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {MONTHS.map((month, index) => (
+                                <SelectItem
+                                  key={month}
+                                  value={(index + 1).toString()}
+                                >
+                                  {month}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          {/* Day Select */}
+                          <Select
+                            value={selectedDay}
+                            onValueChange={setSelectedDay}
+                            disabled={!selectedMonth || !selectedYear}
+                          >
+                            <SelectTrigger className="w-[90px]">
+                              <SelectValue placeholder="Day" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {daysInMonth.map((day) => (
+                                <SelectItem
+                                  key={day}
+                                  value={day.toString()}
+                                >
+                                  {day}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
             </div>
             <DialogFooter>
               <Button
