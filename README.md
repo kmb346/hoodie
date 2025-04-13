@@ -9,7 +9,7 @@
 
 ## Dialog forms
 [x] - Location - postal code custom input field
-[ ] - Student - Custom birthdate field
+[x] - Student - Custom birthdate field
 [ ] - ALL - Edit button in left-most column
 [ ] - Edit dialog with current data preloaded
 

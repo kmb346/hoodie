@@ -13,6 +13,7 @@ export async function createStudent(data: Student) {
     last_login: Date.now(),
     password: "",
     user_id: data.user_id,
+    birthdate: data.birthdate,
     created_on: Date.now(),
     updated_on: Date.now(),
   });

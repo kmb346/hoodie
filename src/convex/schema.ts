@@ -39,13 +39,13 @@ export default defineSchema({
   }).index("user_id", ["user_id"]),
   student: defineTable({
     password: v.string(),
-    user_id: v.id("user"),
+    user_id: v.optional(v.id("user")),
     first_name: v.string(),
     last_name: v.string(),
     birthdate: v.optional(v.number()), // Assuming DateTime is a timestamp
     grade: v.string(),
     profile_pic: v.optional(v.string()),
-    default_class: v.id("class"),
+    default_class: v.optional(v.id("class")),
     created_on: v.number(), // Assuming DateTime is a timestamp
     updated_on: v.optional(v.number()), // Assuming DateTime is a timestamp
     last_login: v.optional(v.number()), // Assuming DateTime is a timestamp

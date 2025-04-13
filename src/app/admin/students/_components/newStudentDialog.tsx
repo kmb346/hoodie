@@ -32,6 +32,7 @@ import { Input } from "~/components/ui/input";
 import { type Student, MONTHS } from "~/actions/schemas";
 import { useRouter } from "next/navigation";
 import { createStudent } from "~/actions/student/mutations";
+import { Value } from "@radix-ui/react-select";
 
 export function NewStudentDialog() {
 
@@ -92,20 +93,15 @@ export function NewStudentDialog() {
     }
   }, [selectedYear, selectedMonth]);
 
-  // Update birthdate in form when date components change
-  useEffect(() => {
-    if (selectedYear && selectedMonth && selectedDay) {
-      const year = parseInt(selectedYear);
-      const month = parseInt(selectedMonth);
-      const day = parseInt(selectedDay);
-
-      // Convert date to timestamp
-      const date = new Date(year, month - 1, day);
-      const timestamp = date.getTime();
-
-      form.setValue("birthdate", timestamp);
-    }
-  },[selectedYear, selectedMonth, selectedDay]);
+  const calculateTimestamp = (year: string, month: string, day: string): number => {
+    if (!year || !month || !day) return 0;
+    
+    const y = parseInt(year);
+    const m = parseInt(month);
+    const d = parseInt(day);
+    
+    return new Date(y, m - 1, d).getTime();
+  };
 
   async function onSubmit(data: Student) {
     setIsSubmitting(true);
@@ -119,10 +115,20 @@ export function NewStudentDialog() {
         return;
       }
 
-      const student = await createStudent(data);
+      const submissionData = {
+        ...data,
+        birthdate: calculateTimestamp(selectedYear, selectedMonth, selectedDay),
+      };
+
+      console.log("SUBMISSION DATA: " + submissionData.birthdate);
+
+      const student = await createStudent(submissionData);
       if (student) {
         setSuccess("Student created successfully");
         form.reset();
+        setSelectedYear("");
+        setSelectedMonth("");
+        setSelectedDay("");
         
         setTimeout(() => {
           setOpen(false);
@@ -237,17 +243,20 @@ export function NewStudentDialog() {
                   />
                 </div>
                 <div>
-                  <FormField
+                  <Controller
                     control={form.control}
                     name="birthdate"
-                    render={() => (
+                    render={({ field }) => (
                       <FormItem>
                         <FormLabel>Birthdate</FormLabel>
                         <div className="flex items-center gap-2">
                           {/* Year Select */}
                           <Select
                             value={selectedYear}
-                            onValueChange={setSelectedYear}
+                            onValueChange={(value) => {
+                              setSelectedYear(value);
+                              field.onChange(calculateTimestamp(value, selectedMonth, selectedDay));
+                            }}
                           >
                             <SelectTrigger className="w-[110px]">
                               <SelectValue placeholder="Year" />
@@ -263,7 +272,10 @@ export function NewStudentDialog() {
                           {/* Month Select */}
                           <Select
                             value={selectedMonth}
-                            onValueChange={setSelectedMonth}
+                            onValueChange={(value) => {
+                              setSelectedMonth(value);
+                              field.onChange(calculateTimestamp(selectedYear, value, selectedDay));
+                            }}
                           >
                             <SelectTrigger className="w-[110px]">
                               <SelectValue placeholder="Month" />
@@ -282,7 +294,10 @@ export function NewStudentDialog() {
                           {/* Day Select */}
                           <Select
                             value={selectedDay}
-                            onValueChange={setSelectedDay}
+                            onValueChange={(value) => {
+                              setSelectedDay(value);
+                              field.onChange(calculateTimestamp(selectedYear, selectedMonth, value));
+                            }}
                             disabled={!selectedMonth || !selectedYear}
                           >
                             <SelectTrigger className="w-[90px]">
