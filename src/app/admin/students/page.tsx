@@ -1,5 +1,6 @@
 import { Student } from "~/actions/schemas";
 import { StudentTable } from "./_components/studentTable";
+import { NewStudentDialog } from "./_components/newStudentDialog";
 import { getAllStudents } from "~/actions/student/queries";
 
 export default async function Page() {
@@ -8,6 +9,7 @@ export default async function Page() {
   
   return ( 
     <div>
+      <NewStudentDialog />
       {Array.isArray(students) ? (
         <StudentTable students={students as Student[]} />
       ) : (

@@ -9,6 +9,25 @@ const optionalNumber = v.optional(v.number());
 const numberValidator = v.number();
 const status = v.union(v.literal("active"), v.literal("inactive"));
 const roles = v.union(v.literal("user"), v.literal("teacher"), v.literal("admin"));
+const grades = v.union(
+  v.literal("Pre-k"), 
+  v.literal("K"), 
+  v.literal("1"), 
+  v.literal("2"), 
+  v.literal("3"), 
+  v.literal("4"), 
+  v.literal("5"), 
+  v.literal("6"), 
+  v.literal("7"), 
+  v.literal("8"), 
+  v.literal("9"), 
+  v.literal("10"), 
+  v.literal("11"), 
+  v.literal("12"), 
+  v.literal("Adult")
+);
+
+export type Grade = Infer<typeof grades>;
 
 export type AdminUser = {
   _id: Id<"user">,
@@ -32,8 +51,6 @@ export type Student = {
   default_class: Id<"class">,
   birthdate: Infer<typeof optionalNumber>,
   profile_pic: Infer<typeof optionalString>,
-  created_on: Infer<typeof numberValidator>,
-  updated_on: Infer<typeof optionalNumber>,
   last_login: Infer<typeof optionalNumber>,
   status: Infer<typeof status>
 }

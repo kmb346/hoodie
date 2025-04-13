@@ -1,4 +1,5 @@
 import { ClassTable } from "./_components/classTable";
+import { NewClassDialog } from "./_components/newClassDialog";
 import { getAllClasses } from "~/actions/classes/queries";
 
 export default async function Page() {
@@ -6,6 +7,7 @@ export default async function Page() {
   
   return ( 
     <div>
+      <NewClassDialog />
       {Array.isArray(classes) ? (
         <ClassTable classes={classes} />
       ) : (
