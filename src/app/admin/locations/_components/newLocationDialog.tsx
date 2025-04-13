@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useRef, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -28,10 +28,11 @@ import { createLocation } from "~/actions/locations/mutations";
 
 export function NewLocationDialog() {
 
-  const form = useForm<Location>({
+  const form = useForm<Location & { postalPart1: string; postalPart2: string }>({
     defaultValues: {
       name: "",
-      postal_code: "",
+      postalPart1: "",
+      postalPart2: "",
       prefecture: "",
       city: "",
       address: "",
@@ -45,8 +46,9 @@ export function NewLocationDialog() {
   const [success, setSuccess] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router =  useRouter();
+  const postalPart2Ref = useRef<HTMLInputElement>(null);
 
-  async function onSubmit(data: Location) {
+  async function onSubmit(data: Location & { postalPart1: string; postalPart2: string }) {
     setIsSubmitting(true);
     setError(null);
     setSuccess(null);
@@ -58,7 +60,16 @@ export function NewLocationDialog() {
         return;
       }
 
-      const location = await createLocation(data);
+      const combinedData = {
+        ...data,
+        postal_code: data.postalPart1 && data.postalPart2 
+          ? `${data.postalPart1}-${data.postalPart2}` 
+          : "",
+      };
+
+      const { postalPart1, postalPart2, ...locationData } = combinedData;
+
+      const location = await createLocation(locationData);
       if (location) {
         setSuccess("Location created successfully");
         form.reset();
@@ -77,12 +88,6 @@ export function NewLocationDialog() {
       setIsSubmitting(false);
     }
   }
-
-  // Define available roles
-  const roles = [
-    { id: "admin", label: "Admin" },
-    { id: "teacher", label: "Teacher" },
-  ];
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -140,21 +145,47 @@ export function NewLocationDialog() {
             </div>
             <div className="grid gap-4 py-4">
               <h4 className="font-semibold">Optional Fields</h4>
-              <div>
-                <FormField
-                  control={form.control}
-                  name="postal_code"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Postal Code</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <FormLabel>Postal Code</FormLabel>
+                <div className="flex items-center gap-2">
+                  <Controller
+                    name="postalPart1"
+                    control={form.control}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        className="w-20"
+                        maxLength={3}
+                        placeholder="123"
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/[^0-9]/g, "").toUpperCase();
+                          field.onChange(value.slice(0, 3));
+                          // Auto-focus to second input when first part is complete
+                          if (value.length >= 3 && postalPart2Ref.current) {
+                            postalPart2Ref.current.focus();
+                          }
+                        }}
+                      />
+                    )}
+                  />
+                  <span className="text-lg font-medium">-</span>
+                  <Controller
+                    name="postalPart2"
+                    control={form.control}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        ref={postalPart2Ref}
+                        className="w-24"
+                        maxLength={4}
+                        placeholder="4567"
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/[^0-9]/g, "").toUpperCase();
+                          field.onChange(value.slice(0, 4));
+                        }}
+                      />
+                    )}
+                  />
+                </div>
               <div>
                 <FormField
                   control={form.control}

@@ -7,6 +7,11 @@
 [ ] - Teacher dashboard
 [ ] - Top page (AI)
 
+## Dialog forms
+[ ] - Location - postal code custom input field
+[ ] - Student/Staff - Custom birthdate field
+[ ] - 
+
 
 ## Staff page
 [ ] - Edit teacher dialog
