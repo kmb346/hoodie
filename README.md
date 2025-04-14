@@ -1,8 +1,4 @@
 ## TODO NEXT
-
-[x] - Custom Authentication
-[x] - Role-based authorization
-[x] - CI setup (.gihub/workflows/ci.yaml)
 [ ] - Admin dashboard
 [ ] - Teacher dashboard
 [ ] - Top page (AI)
@@ -10,6 +6,8 @@
 ## Dialog forms
 [x] - Location - postal code custom input field
 [x] - Student - Custom birthdate field
+[x] - Student - get all classes and add class select to newStudentDialog
+[x] - Student - Display class name instead of id
 [ ] - ALL - Edit button in left-most column
 [ ] - Edit dialog with current data preloaded
 

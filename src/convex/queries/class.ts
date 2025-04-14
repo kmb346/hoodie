@@ -16,3 +16,15 @@ export const getAllClasses = query({
     return classes;
   }
 });
+
+export const getClassKV = query({
+  args: {},
+  handler: async (ctx, args) => {
+    const classes = await ctx.db.query("class").collect();
+    const classKV = classes.map((cls) => ({
+      id: cls._id,
+      name: cls.name,
+    }));
+    return classKV;
+  }
+});

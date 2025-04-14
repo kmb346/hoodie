@@ -29,12 +29,11 @@ import {
 } from "~/components/ui/select";
 import { UserIcon } from '@heroicons/react/24/solid';
 import { Input } from "~/components/ui/input";
-import { type Student, MONTHS } from "~/actions/schemas";
+import { type Student, ClassSchema, MONTHS } from "~/actions/schemas";
 import { useRouter } from "next/navigation";
 import { createStudent } from "~/actions/student/mutations";
-import { Value } from "@radix-ui/react-select";
 
-export function NewStudentDialog() {
+export function NewStudentDialog({ classes }: { classes: { [key: string]: string }[] }) {
 
   const form = useForm<Student>({
     defaultValues: {
@@ -208,9 +207,20 @@ export function NewStudentDialog() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Class</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select Class"/>
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {classes.map((c) => (
+                              <SelectItem key={c.id} value={c.id as string}>
+                                {c.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                     )}
