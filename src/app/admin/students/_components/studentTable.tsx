@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -9,7 +8,7 @@ import {
 } from "~/components/ui/table";
 import { type Student } from "~/actions/schemas";
 
-export function StudentTable({ students, classes }: { students: Student[], classes: { [key: string]: string }[] }) {
+export function StudentTable({ students, classes }: { students: Student[], classes: Record<string, string>[] }) {
   return (
     <>
       <Table>
@@ -28,7 +27,7 @@ export function StudentTable({ students, classes }: { students: Student[], class
               <TableCell>{student.first_name}</TableCell>
               <TableCell>{student.last_name}</TableCell>
               <TableCell>{student.grade}</TableCell>
-              <TableCell>{classes.find((c) => c.id === student.default_class)?.name || "N/A"}</TableCell>
+              <TableCell>{classes.find((c) => c.id === student.default_class)?.name ?? "N/A"}</TableCell>
               <TableCell>{student.status}</TableCell>
             </TableRow>
           ))}

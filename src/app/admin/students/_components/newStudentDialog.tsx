@@ -29,11 +29,11 @@ import {
 } from "~/components/ui/select";
 import { UserIcon } from '@heroicons/react/24/solid';
 import { Input } from "~/components/ui/input";
-import { type Student, ClassSchema, MONTHS } from "~/actions/schemas";
+import { type Student, MONTHS } from "~/actions/schemas";
 import { useRouter } from "next/navigation";
 import { createStudent } from "~/actions/student/mutations";
 
-export function NewStudentDialog({ classes }: { classes: { [key: string]: string }[] }) {
+export function NewStudentDialog({ classes }: { classes: Record<string, string>[] }) {
 
   const form = useForm<Student>({
     defaultValues: {

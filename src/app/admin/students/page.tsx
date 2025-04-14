@@ -17,7 +17,7 @@ export default async function Page() {
     <div>
       <NewStudentDialog classes={classes} />
       {Array.isArray(students) ? (
-        <StudentTable students={students as Student[]} classes={classes as { [key: string]: string }[]} />
+        <StudentTable students={students as Student[]} classes={classes as Record<string, string>[]} />
       ) : (
         <div>Error: {students}</div>
       )}
