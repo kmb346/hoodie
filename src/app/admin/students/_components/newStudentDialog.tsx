@@ -216,7 +216,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                           <SelectContent>
                             {classes.map((c) => (
                               <SelectItem key={c.id} value={c.id as string}>
-                                {c.name}
+                                {c.name ?? "N/A"}
                               </SelectItem>
                             ))}
                           </SelectContent>
