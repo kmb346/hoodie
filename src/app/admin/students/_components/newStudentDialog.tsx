@@ -215,8 +215,8 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                           </FormControl>
                           <SelectContent>
                             {classes.map((c) => (
-                              <SelectItem key={c.id} value={c.id as string}>
-                                {c!.name}
+                              <SelectItem key={c.id} value={c!.id as string}>
+                                {c.name}
                               </SelectItem>
                             ))}
                           </SelectContent>
