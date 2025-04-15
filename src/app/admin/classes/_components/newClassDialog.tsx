@@ -22,9 +22,10 @@ import {
 } from "~/components/ui/form";
 import { UserIcon } from '@heroicons/react/24/solid';
 import { Input } from "~/components/ui/input";
-import { type ClassSchema } from "~/actions/schemas";
+import { type ClassSchema, DAYS, TIMES } from "~/actions/schemas";
 import { useRouter } from "next/navigation";
 import { createClass } from "~/actions/classes/mutations";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 
 export function NewClassDialog() {
 
@@ -32,7 +33,7 @@ export function NewClassDialog() {
     defaultValues: {
       name: "",
       def_day: "",
-      def_time: 0,
+      def_time: "",
       teacher_id: undefined,
       student_limit: 0,
     },
@@ -130,9 +131,23 @@ export function NewClassDialog() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Day</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a day" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {DAYS.map((day) => (
+                              <SelectItem key={day} value={day}>
+                                {day}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -145,9 +160,23 @@ export function NewClassDialog() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Time</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a time" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {TIMES.map((time) => (
+                            <SelectItem key={time} value={time}>
+                              {time}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}

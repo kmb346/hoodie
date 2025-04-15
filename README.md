@@ -8,6 +8,8 @@
 [x] - Student - Custom birthdate field
 [x] - Student - get all classes and add class select to newStudentDialog
 [x] - Student - Display class name instead of id
+[x] - Class - Day and time fields
+[ ] - Class - Teacher Select component
 [ ] - ALL - Edit button in left-most column
 [ ] - Edit dialog with current data preloaded
 

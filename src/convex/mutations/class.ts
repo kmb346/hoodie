@@ -6,7 +6,7 @@ export const createClass = mutation({
     name: v.string(),
     teacher_id: v.optional(v.id("staff")),
     def_day: v.optional(v.string()),
-    def_time: v.optional(v.number()),
+    def_time: v.optional(v.string()),
     def_room_id: v.optional(v.id("room")),
     student_limit: v.number(),
   },
@@ -15,7 +15,7 @@ export const createClass = mutation({
       name: args.name,
       teacher_id: args.teacher_id ?? undefined,
       def_day: args.def_day ?? "",
-      def_time: args.def_time ?? 0,
+      def_time: args.def_time ?? "",
       def_room_id: args.def_room_id ?? undefined,
       student_limit: args.student_limit,
     });

@@ -55,7 +55,7 @@ export default defineSchema({
     name: v.string(),
     teacher_id: v.optional(v.id("staff")),
     def_day: v.optional(v.string()),
-    def_time: v.optional(v.number()), // Assuming DateTime is a timestamp
+    def_time: v.optional(v.string()), // Assuming DateTime is a timestamp
     def_room_id: v.optional(v.id("room")),
     student_limit: v.number(),
   }).index("name", ["name"]),

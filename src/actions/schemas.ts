@@ -43,6 +43,32 @@ export const MONTHS = [
   "December"
 ];
 
+export const DAYS = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday"
+];
+
+export const TIMES = [
+  "9:00",
+  "10:00",
+  "11:00",
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+  "18:00",
+  "19:00",
+  "20:00",
+  "21:00",
+];
+
 export type Grade = Infer<typeof grades>;
 
 export type AdminUser = {
@@ -87,7 +113,7 @@ export type ClassSchema = {
   name: Infer<typeof stringValidator>,
   teacher_id?: Id<"staff"> | undefined,
   def_day?: Infer<typeof optionalString>,
-  def_time?: Infer<typeof optionalNumber>,
+  def_time?: Infer<typeof optionalString>,
   def_room_id?: Id<"room"> | undefined,
   student_limit: Infer<typeof numberValidator>
 }
