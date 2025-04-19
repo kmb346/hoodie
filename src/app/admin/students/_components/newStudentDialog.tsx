@@ -31,7 +31,8 @@ import { UserIcon } from '@heroicons/react/24/solid';
 import { Input } from "~/components/ui/input";
 import { type Student, MONTHS } from "~/actions/schemas";
 import { useRouter } from "next/navigation";
-import { createStudent } from "~/actions/student/mutations";
+import { useMutation } from "convex/react";
+import { api } from "~/convex/_generated/api";
 
 export function NewStudentDialog({ classes }: { classes: Record<string, string>[] }) {
 
@@ -56,6 +57,8 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
   const [selectedMonth, setSelectedMonth] = useState<string>("");
   const [selectedDay, setSelectedDay] = useState<string>("");
   const [daysInMonth, setDaysInMonth] = useState<number[]>([]);
+
+  const createStudent = useMutation(api.mutations.student.createStudent);
 
   const gradeArray = [
     "Pre-k",
@@ -121,7 +124,15 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
 
       console.log("SUBMISSION DATA: " + submissionData.birthdate);
 
-      const student = await createStudent(submissionData);
+      const student = await createStudent({
+        ...submissionData, 
+        created_on: 0, 
+        updated_on: 0, 
+        password: "", 
+        last_login: 0,
+        status: "active"
+      });
+
       if (student) {
         setSuccess("Student created successfully");
         form.reset();

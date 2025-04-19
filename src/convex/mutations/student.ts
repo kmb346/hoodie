@@ -20,7 +20,7 @@ export const createStudent = mutation({
     console.log("BIRTHDATE: " + args.birthdate);
     const studentId = await ctx.db
       .insert("student", {
-        password: args.password,
+        password: args.password ?? "",
         user_id: args.user_id ?? undefined,
         first_name: args.first_name,
         last_name: args.last_name,
@@ -28,10 +28,10 @@ export const createStudent = mutation({
         grade: args.grade,
         profile_pic: args.profile_pic ?? "",
         default_class: args.default_class ?? undefined,
-        created_on: args.created_on,
+        created_on: args.created_on ?? 0,
         updated_on: args.updated_on ?? 0,
         last_login: args.last_login ?? 0,
-        status: args.status,
+        status: args.status ?? "active",
       });
       return studentId;
     }

@@ -7,6 +7,7 @@ const stringValidator = v.string();
 const optionalString = v.optional(v.string());
 const optionalNumber = v.optional(v.number());
 const numberValidator = v.number();
+const intValidator = v.int64();
 const status = v.union(v.literal("active"), v.literal("inactive"));
 const roles = v.union(v.literal("user"), v.literal("teacher"), v.literal("admin"));
 const grades = v.union(
@@ -115,5 +116,5 @@ export type ClassSchema = {
   def_day?: Infer<typeof optionalString>,
   def_time?: Infer<typeof optionalString>,
   def_room_id?: Id<"room"> | undefined,
-  student_limit: Infer<typeof numberValidator>
+  student_limit: Infer<typeof intValidator>
 }

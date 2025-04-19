@@ -24,7 +24,8 @@ import { UserIcon } from '@heroicons/react/24/solid';
 import { Input } from "~/components/ui/input";
 import { type ClassSchema, DAYS, TIMES } from "~/actions/schemas";
 import { useRouter } from "next/navigation";
-import { createClass } from "~/actions/classes/mutations";
+import { useMutation } from "convex/react";
+import { api } from "~/convex/_generated/api";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 
 export function NewClassDialog() {
@@ -35,7 +36,7 @@ export function NewClassDialog() {
       def_day: "",
       def_time: "",
       teacher_id: undefined,
-      student_limit: 0,
+      student_limit: 0n,
     },
   });
 
@@ -44,6 +45,8 @@ export function NewClassDialog() {
   const [success, setSuccess] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router =  useRouter();
+
+  const createClass = useMutation(api.mutations.class.createClass);
 
   async function onSubmit(data: ClassSchema) {
     setIsSubmitting(true);
@@ -76,12 +79,6 @@ export function NewClassDialog() {
       setIsSubmitting(false);
     }
   }
-
-  // Define available roles
-  const roles = [
-    { id: "admin", label: "Admin" },
-    { id: "teacher", label: "Teacher" },
-  ];
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -205,7 +202,14 @@ export function NewClassDialog() {
                     <FormItem>
                       <FormLabel>Student Limit</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input 
+                          type="number"
+                          min="0"
+                          max="20"
+                          {...field} 
+                          value={field.value ? Number(field.value) : ''} 
+                          onChange={(e) => field.onChange(BigInt(e.target.value || '0'))}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

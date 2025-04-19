@@ -24,7 +24,8 @@ import { UserIcon } from '@heroicons/react/24/solid';
 import { Input } from "~/components/ui/input";
 import { type Location } from "~/actions/schemas";
 import { useRouter } from "next/navigation";
-import { createLocation } from "~/actions/locations/mutations";
+import { useMutation } from "convex/react";
+import { api } from "~/convex/_generated/api";
 
 export function NewLocationDialog() {
 
@@ -47,6 +48,8 @@ export function NewLocationDialog() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router =  useRouter();
   const postalPart2Ref = useRef<HTMLInputElement>(null);
+
+  const createLocation = useMutation(api.mutations.location.createLocation);
 
   async function onSubmit(data: Location & { postalPart1: string; postalPart2: string }) {
     setIsSubmitting(true);

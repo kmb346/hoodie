@@ -1,9 +1,10 @@
 import { StaffTable } from "./_components/staffTable";
 import { NewStaffDialog } from "./_components/newStaffDialog";
-import { getAllStaff } from "~/actions/staff/queries";
+import { fetchQuery } from "convex/nextjs";
+import { api } from "~/convex/_generated/api";
 
 export default async function Page() {
-  const staff = await getAllStaff();
+  const staff = await fetchQuery(api.queries.user.getStaffUsers);
   
   return ( 
     <div className="mx-14">

@@ -8,7 +8,7 @@ export const createClass = mutation({
     def_day: v.optional(v.string()),
     def_time: v.optional(v.string()),
     def_room_id: v.optional(v.id("room")),
-    student_limit: v.number(),
+    student_limit: v.int64(),
   },
   handler: async (ctx, args) => {
     const classId = await ctx.db.insert("class", {
