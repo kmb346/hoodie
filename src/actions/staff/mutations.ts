@@ -1,9 +1,9 @@
 import { verifyAdmin } from "~/auth/core/session";
-import { AdminUser } from "../schemas";
+import { UserData } from "../schemas";
 import { fetchMutation, fetchQuery } from "convex/nextjs";
 import { api } from "~/convex/_generated/api";
 
-export async function createStaffUser(data: AdminUser) {
+export async function createStaffUser(data: UserData) {
   //if (! await verifyAdmin()) return "Unauthorized!";
   const existingUser = await fetchQuery(api.queries.user.getUserByEmail, { email: data.email });
 
@@ -13,7 +13,6 @@ export async function createStaffUser(data: AdminUser) {
     first_name: data.first_name,
     last_name: data.last_name,
     email: data.email,
-    role: data.role ?? ["teacher"],
     status: "active",
     createdAt: Date.now(),
     updatedAt: Date.now(), 
