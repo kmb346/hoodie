@@ -12,36 +12,47 @@ import { Roles } from "./schemas";
 
 export async function signIn(formData: signInSchema) {
   const user = await fetchQuery(api.queries.user.getUserByEmail, { email: formData.email });
-
-  if (user?.password == null || user?.pwSalt == null) {
-    return "Unable to sign in.";
-  };
   
-  const passwordsMatch = await comparePasswords({
-    userPassword: user.password,
-    unhashedPassword: formData.password,
-  });
+  if (user) {
+    const staffUser = await fetchQuery(api.queries.staff.getStaffByUserId, {id: user._id});
 
-  const getHighestRole = (rolesArray: Roles[]) => {
-      if (rolesArray.includes("admin")) { 
-        return "admin"; 
-      } else if (rolesArray.includes("teacher")) {
-        return "teacher";
-      } else {
-        return "user";
+    if (user?.password == null || user?.pwSalt == null) {
+      return "Unable to sign in.";
+    };
+    
+    const passwordsMatch = await comparePasswords({
+      userPassword: user.password,
+      unhashedPassword: formData.password,
+    });
+    
+    if (!passwordsMatch) return "Unable to sign in.";
+
+    if (staffUser) {
+      const getHighestRole = (rolesArray: Roles[]) => {
+        if (rolesArray && rolesArray.includes("admin")) { 
+          return "admin"; 
+        } else {
+          return "teacher";
+        }
+      };
+
+      const role = getHighestRole(staffUser.role);
+      await createUserSession({ userId: user._id, role: role }, await cookies());
+
+      if(role == "admin") {
+        redirect("/admin");
+      } else { 
+        redirect("/");
       }
+
     }
 
-  const role = getHighestRole(user?.roles);
-
-  if (!passwordsMatch) return "Unable to sign in.";
-
-  await createUserSession({ userId: user._id, role: role ?? "user" }, await cookies());
-
-  if(role == "admin") {
-    redirect("/admin");
-  } else { 
+    await createUserSession({ userId: user._id, role: "user" }, await cookies());
+    
     redirect("/");
+  
+  } else {
+    return "User not found.";
   }
 }
 
@@ -55,6 +66,8 @@ export async function signUp(formData: signUpSchema) {
     const salt = await generateSalt();
     const pwd = await hashPassword(formData.password, salt);
 
+    const date = Date.now();
+
     const user = await fetchMutation(api.mutations.user.createUser,
       { 
         first_name: formData.first_name,
@@ -62,11 +75,10 @@ export async function signUp(formData: signUpSchema) {
         email: formData.email,
         password: pwd,
         pwSalt: salt,
-        role: ["user"],
         status: "active",
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-        last_login: Date.now(),
+        createdAt: date,
+        updatedAt: date,
+        last_login: date,
       }
     );
    

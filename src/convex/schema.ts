@@ -7,7 +7,6 @@ export default defineSchema({
     first_name: v.string(),
     last_name: v.string(),
     email: v.string(),
-    role: v.array(v.union(v.literal("user"), v.literal("teacher"), v.literal("admin"))),
     pwSalt: v.string(),
     postal_code: v.optional(v.string()),
     prefecture: v.optional(v.string()),
@@ -19,7 +18,7 @@ export default defineSchema({
     updatedAt: v.optional(v.number()), // Assuming DateTime is a timestamp
     last_login: v.optional(v.number()), // Assuming DateTime is a timestamp
     status: v.union(v.literal("active"), v.literal("inactive")),
-  }).index("email", ["email"]).index("roles", ["role"]),
+  }).index("email", ["email"]),
   session: defineTable({
     userId: v.id("user"),
     role: v.union(v.literal("user"), v.literal("teacher"), v.literal("admin")),
@@ -33,7 +32,9 @@ export default defineSchema({
   }).index("identifier_token", ["identifier", "token"]),
   staff: defineTable({
     user_id: v.id("user"),
-  }).index("user_id", ["user_id"]),
+    birthdate: v.optional(v.number()),
+    role: v.array(v.union(v.literal("teacher"), v.literal("admin"))),
+  }).index("user_id", ["user_id"]).index("roles", ["role"]),
   customer: defineTable({
     user_id: v.id("user"),
   }).index("user_id", ["user_id"]),

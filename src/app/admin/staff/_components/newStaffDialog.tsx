@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useRef, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -20,20 +20,47 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "~/components/ui/select";
 import { UserIcon } from '@heroicons/react/24/solid';
 import { Input } from "~/components/ui/input";
-import { type AdminUser } from "~/actions/schemas";
-import { useRouter } from "next/navigation";
-import { createStaffUser } from "~/actions/staff/mutations";
 import { Checkbox } from "~/components/ui/checkbox";
+import { MONTHS, type AdminUser } from "~/actions/schemas";
+import { useRouter } from "next/navigation";
+import { useMutation } from "convex/react";
+import { api } from "~/convex/_generated/api";
+
+import { calculateTimestamp } from "~/lib/calculateTimestamp";
+import { generateSalt, hashPassword } from "~/auth/core/passwordHasher";
 
 export function NewStaffDialog() {
 
-  const form = useForm<AdminUser>({
+  const form = useForm<AdminUser & { 
+    role: string[]; 
+    postalPart1: string; 
+    postalPart2: string; 
+    birthdate: number 
+  }>({
+
     defaultValues: {
-      first_name: "",
-      last_name: "",
-      email: "",
+      user_id: undefined,
+      userData: {
+        first_name: "",
+        last_name: "",
+        email: "",
+        postal_code: "",
+        prefecture: "",
+        city: "",
+        address: ""
+      },
+      postalPart1: "",
+      postalPart2: "",
+      birthdate: 0,
     },
   });
 
@@ -43,28 +70,105 @@ export function NewStaffDialog() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router =  useRouter();
 
-  async function onSubmit(data: AdminUser) {
+  //For postal code
+  const postalPart2Ref = useRef<HTMLInputElement>(null);
+
+  //For birthdate calculation
+  const [selectedYear, setSelectedYear] = useState<string>("");
+  const [selectedMonth, setSelectedMonth] = useState<string>("");
+  const [selectedDay, setSelectedDay] = useState<string>("");
+  const [daysInMonth, setDaysInMonth] = useState<number[]>([]);
+
+  const createUser = useMutation(api.mutations.user.createUser);
+  const createStaff = useMutation(api.mutations.staff.createStaff);
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from(
+    { length: 100 },
+    (_, i) => (currentYear - i).toString()
+  );
+
+  // Update days in month when year and month change
+  useEffect(() => {
+    if (selectedYear && selectedMonth) {
+      const year = parseInt(selectedYear);
+      const month = parseInt(selectedMonth);
+      const daysCount = new Date(year, month, 0).getDate();
+      setDaysInMonth(Array.from({ length: daysCount }, (_, i) => i + 1));
+    }
+  }, [selectedYear, selectedMonth]);
+
+  async function onSubmit(
+    data: AdminUser &
+    { 
+      role: string[],
+      postalPart1: string, 
+      postalPart2: string,
+      birthdate: number,
+    }
+  ) {
     setIsSubmitting(true);
     setError(null);
     setSuccess(null);
 
     try {
-      if (!data.first_name || !data.last_name || !data.email || !data.role.length) {
+      if (!data.userData.first_name || 
+          !data.userData.last_name || 
+          !data.userData.email || 
+          !data.role.length
+        ) {
         setError("Missing required fields");
         setIsSubmitting(false);
         return;
       }
 
-      const user = await createStaffUser(data);
+      const combinedData = {
+        ...data,
+        postal_code: data.postalPart1 && data.postalPart2 
+          ? `${data.postalPart1}-${data.postalPart2}` 
+          : "",
+      };
+
+      const { postalPart1, postalPart2, birthdate, ...staffData } = combinedData;
+
+      const salt = await generateSalt();
+      const pwd = await hashPassword("password", salt);
+
+      const user = await createUser({
+        first_name: data.userData.first_name,
+        last_name: data.userData.last_name,
+        email: data.userData.email,
+        password: pwd,
+        pwSalt: salt,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        last_login: Date.now(),
+        postal_code: data.userData.postal_code,
+        prefecture: data.userData.prefecture,
+        city: data.userData.city,
+        address: data.userData.address,
+      });
+
       if (user) {
-        setSuccess("Staff member created successfully");
-        form.reset();
-        
-        setTimeout(() => {
-          setOpen(false);
-          router.refresh();
-          setSuccess(null);
-        },2000);
+        const newStaffData = { 
+          user_id: user,
+          birthdate: calculateTimestamp(selectedYear, selectedMonth, selectedDay),
+          role: data.role
+        };
+        const newStaff = await createStaff(newStaffData);
+        if(newStaff) {
+          setSuccess("Staff member created successfully");
+          form.reset();
+          setSelectedYear("");
+          setSelectedMonth("");
+          setSelectedDay("");
+          
+          setTimeout(() => {
+            setOpen(false);
+            router.refresh();
+            setSuccess(null);
+          },2000);
+        }
       } else {
         setError("Failed to create staff member");
       }
@@ -86,16 +190,15 @@ export function NewStaffDialog() {
       <DialogTrigger className="mb-4" asChild>
         <Button variant="outline"><UserIcon /> Add Staff</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="overflow-y-scroll max-h-screen min-w-[50%]">
         <DialogHeader>
+          {error && <div className="text-red-500 mb-4">{error}</div>}
+          {success && <div className="text-green-500 mb-4">{success}</div>}
           <DialogTitle>Add Staff</DialogTitle>
           <DialogDescription>
             Add a new staff member to the database
           </DialogDescription>
         </DialogHeader>
-
-        {error && <div className="text-red-500 mb-4">{error}</div>}
-        {success && <div className="text-green-500 mb-4">{success}</div>}
 
         <Form {...form}>
           <form 
@@ -108,7 +211,7 @@ export function NewStaffDialog() {
                 <div className="grid gap-2">
                   <FormField
                     control={form.control}
-                    name="first_name"
+                    name="userData.first_name"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>First Name <span className="text-red-500">*</span></FormLabel>
@@ -123,7 +226,7 @@ export function NewStaffDialog() {
                 <div className="grid gap-2">
                   <FormField
                     control={form.control}
-                    name="last_name"
+                    name="userData.last_name"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Last Name <span className="text-red-500">*</span></FormLabel>
@@ -139,7 +242,7 @@ export function NewStaffDialog() {
               <div className="grid gap-2">
                 <FormField
                   control={form.control}
-                  name="email"
+                  name="userData.email"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Email <span className="text-red-500">*</span></FormLabel>
@@ -166,13 +269,13 @@ export function NewStaffDialog() {
                         >
                           <FormControl>
                             <Checkbox
-                              checked={field.value?.includes(role.id as "admin" | "teacher" | "user")}
+                              checked={field.value?.includes(role.id)}
                               onCheckedChange={(checked) => {
                                 const updatedValue = checked
-                                  ? [...(field.value || []), role.id]
-                                  : (field.value || []).filter(
-                                      (value) => value !== role.id
-                                    );
+                                ? [...(field.value || []), role.id]
+                                : (field.value || []).filter(
+                                  value => value !== role.id
+                                );
                                 field.onChange(updatedValue);
                               }}
                             />
@@ -191,24 +294,130 @@ export function NewStaffDialog() {
             <div className="grid gap-4 py-4">
               <h4 className="font-semibold">Optional Fields</h4>
               <div>
-                <FormField
+                <Controller
                   control={form.control}
-                  name="postal_code"
+                  name="birthdate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Postal Code</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
+                      <FormLabel>Birthdate</FormLabel>
+                      <div className="flex items-center gap-2">
+                        {/* Year Select */}
+                        <Select
+                          value={selectedYear}
+                          onValueChange={(value) => {
+                            setSelectedYear(value);
+                            field.onChange(calculateTimestamp(value, selectedMonth, selectedDay));
+                          }}
+                        >
+                          <SelectTrigger className="w-[110px]">
+                            <SelectValue placeholder="Year" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {years.map((year) => (
+                              <SelectItem key={year} value={year}>
+                                {year}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {/* Month Select */}
+                        <Select
+                          value={selectedMonth}
+                          onValueChange={(value) => {
+                            setSelectedMonth(value);
+                            field.onChange(calculateTimestamp(selectedYear, value, selectedDay));
+                          }}
+                        >
+                          <SelectTrigger className="w-[110px]">
+                            <SelectValue placeholder="Month" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {MONTHS.map((month, index) => (
+                              <SelectItem
+                                key={month}
+                                value={(index + 1).toString()}
+                              >
+                                {month}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {/* Day Select */}
+                        <Select
+                          value={selectedDay}
+                          onValueChange={(value) => {
+                            setSelectedDay(value);
+                            field.onChange(calculateTimestamp(selectedYear, selectedMonth, value));
+                          }}
+                          disabled={!selectedMonth || !selectedYear}
+                        >
+                          <SelectTrigger className="w-[90px]">
+                            <SelectValue placeholder="Day" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {daysInMonth.map((day) => (
+                              <SelectItem
+                                key={day}
+                                value={day.toString()}
+                              >
+                                {day}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
               <div>
+                <FormLabel>Postal Code</FormLabel>
+                <div className="flex items-center gap-2">
+                  <Controller
+                    name="postalPart1"
+                    control={form.control}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        className="w-20"
+                        maxLength={3}
+                        placeholder="123"
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/[^0-9]/g, "");
+                          field.onChange(value.slice(0, 3));
+                          // Auto-focus to second input when first part is complete
+                          if (value.length >= 3 && postalPart2Ref.current) {
+                            postalPart2Ref.current.focus();
+                          }
+                        }}
+                      />
+                    )}
+                  />
+                  <span className="text-lg font-medium">-</span>
+                  <Controller
+                    name="postalPart2"
+                    control={form.control}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        ref={postalPart2Ref}
+                        className="w-24"
+                        maxLength={4}
+                        placeholder="4567"
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/[^0-9]/g, "");
+                          field.onChange(value.slice(0, 4));
+                        }}
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+              <div>
                 <FormField
                   control={form.control}
-                  name="prefecture"
+                  name="userData.prefecture"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Prefecture</FormLabel>
@@ -223,7 +432,7 @@ export function NewStaffDialog() {
               <div>
                 <FormField
                   control={form.control}
-                  name="city"
+                  name="userData.city"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>City</FormLabel>
@@ -238,7 +447,7 @@ export function NewStaffDialog() {
               <div>
                 <FormField
                   control={form.control}
-                  name="address"
+                  name="userData.address"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Address</FormLabel>

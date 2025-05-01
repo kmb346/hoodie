@@ -33,6 +33,7 @@ import { type Student, MONTHS } from "~/actions/schemas";
 import { useRouter } from "next/navigation";
 import { useMutation } from "convex/react";
 import { api } from "~/convex/_generated/api";
+import { calculateTimestamp } from "~/lib/calculateTimestamp";
 
 export function NewStudentDialog({ classes }: { classes: Record<string, string>[] }) {
 
@@ -95,15 +96,6 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
     }
   }, [selectedYear, selectedMonth]);
 
-  const calculateTimestamp = (year: string, month: string, day: string): number => {
-    if (!year || !month || !day) return 0;
-    
-    const y = parseInt(year);
-    const m = parseInt(month);
-    const d = parseInt(day);
-    
-    return new Date(y, m - 1, d).getTime();
-  };
 
   async function onSubmit(data: Student) {
     setIsSubmitting(true);
@@ -121,8 +113,6 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
         ...data,
         birthdate: calculateTimestamp(selectedYear, selectedMonth, selectedDay),
       };
-
-      console.log("SUBMISSION DATA: " + submissionData.birthdate);
 
       const student = await createStudent({
         ...submissionData, 
@@ -211,136 +201,136 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                 </div>
               </div>
               <h4 className="font-semibold">Optional Fields</h4>
-                <div>
-                  <FormField
-                    control={form.control}
-                    name="default_class"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Class</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select Class"/>
-                            </SelectTrigger>
-                          </FormControl>
+              <div>
+                <FormField
+                  control={form.control}
+                  name="default_class"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Class</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Class"/>
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {classes.map((c) => (
+                            <SelectItem key={c.id} value={c.id!}>
+                              {c.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div>
+                <FormField
+                  control={form.control}
+                  name="grade"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Grade</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Grade"/>
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {gradeArray.map((option:string, index:number) => (
+                            <SelectItem key={index} value={option}>
+                              {option}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div>
+                <Controller
+                  control={form.control}
+                  name="birthdate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Birthdate</FormLabel>
+                      <div className="flex items-center gap-2">
+                        {/* Year Select */}
+                        <Select
+                          value={selectedYear}
+                          onValueChange={(value) => {
+                            setSelectedYear(value);
+                            field.onChange(calculateTimestamp(value, selectedMonth, selectedDay));
+                          }}
+                        >
+                          <SelectTrigger className="w-[110px]">
+                            <SelectValue placeholder="Year" />
+                          </SelectTrigger>
                           <SelectContent>
-                            {classes.map((c) => (
-                              <SelectItem key={c.id} value={c.id!}>
-                                {c.name}
+                            {years.map((year) => (
+                              <SelectItem key={year} value={year}>
+                                {year}
                               </SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div>
-                  <FormField
-                    control={form.control}
-                    name="grade"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Grade</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select Grade"/>
-                            </SelectTrigger>
-                          </FormControl>
+                        {/* Month Select */}
+                        <Select
+                          value={selectedMonth}
+                          onValueChange={(value) => {
+                            setSelectedMonth(value);
+                            field.onChange(calculateTimestamp(selectedYear, value, selectedDay));
+                          }}
+                        >
+                          <SelectTrigger className="w-[110px]">
+                            <SelectValue placeholder="Month" />
+                          </SelectTrigger>
                           <SelectContent>
-                            {gradeArray.map((option:string, index:number) => (
-                              <SelectItem key={index} value={option}>
-                                {option}
+                            {MONTHS.map((month, index) => (
+                              <SelectItem
+                                key={month}
+                                value={(index + 1).toString()}
+                              >
+                                {month}
                               </SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div>
-                  <Controller
-                    control={form.control}
-                    name="birthdate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Birthdate</FormLabel>
-                        <div className="flex items-center gap-2">
-                          {/* Year Select */}
-                          <Select
-                            value={selectedYear}
-                            onValueChange={(value) => {
-                              setSelectedYear(value);
-                              field.onChange(calculateTimestamp(value, selectedMonth, selectedDay));
-                            }}
-                          >
-                            <SelectTrigger className="w-[110px]">
-                              <SelectValue placeholder="Year" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {years.map((year) => (
-                                <SelectItem key={year} value={year}>
-                                  {year}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          {/* Month Select */}
-                          <Select
-                            value={selectedMonth}
-                            onValueChange={(value) => {
-                              setSelectedMonth(value);
-                              field.onChange(calculateTimestamp(selectedYear, value, selectedDay));
-                            }}
-                          >
-                            <SelectTrigger className="w-[110px]">
-                              <SelectValue placeholder="Month" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {MONTHS.map((month, index) => (
-                                <SelectItem
-                                  key={month}
-                                  value={(index + 1).toString()}
-                                >
-                                  {month}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          {/* Day Select */}
-                          <Select
-                            value={selectedDay}
-                            onValueChange={(value) => {
-                              setSelectedDay(value);
-                              field.onChange(calculateTimestamp(selectedYear, selectedMonth, value));
-                            }}
-                            disabled={!selectedMonth || !selectedYear}
-                          >
-                            <SelectTrigger className="w-[90px]">
-                              <SelectValue placeholder="Day" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {daysInMonth.map((day) => (
-                                <SelectItem
-                                  key={day}
-                                  value={day.toString()}
-                                >
-                                  {day}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                        {/* Day Select */}
+                        <Select
+                          value={selectedDay}
+                          onValueChange={(value) => {
+                            setSelectedDay(value);
+                            field.onChange(calculateTimestamp(selectedYear, selectedMonth, value));
+                          }}
+                          disabled={!selectedMonth || !selectedYear}
+                        >
+                          <SelectTrigger className="w-[90px]">
+                            <SelectValue placeholder="Day" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {daysInMonth.map((day) => (
+                              <SelectItem
+                                key={day}
+                                value={day.toString()}
+                              >
+                                {day}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
             <DialogFooter>
               <Button

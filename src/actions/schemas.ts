@@ -9,7 +9,7 @@ const optionalNumber = v.optional(v.number());
 const numberValidator = v.number();
 const intValidator = v.int64();
 const status = v.union(v.literal("active"), v.literal("inactive"));
-const roles = v.union(v.literal("user"), v.literal("teacher"), v.literal("admin"));
+const adminRoles = v.array(v.union(v.literal("teacher"), v.literal("admin")));
 const grades = v.union(
   v.literal("Pre-k"), 
   v.literal("K"), 
@@ -72,17 +72,21 @@ export const TIMES = [
 
 export type Grade = Infer<typeof grades>;
 
-export type AdminUser = {
-  _id: Id<"user">,
+export type UserData = {
   first_name: Infer<typeof stringValidator>,
   last_name: Infer<typeof stringValidator>,
   email: Infer<typeof stringValidator>,
   postal_code: Infer<typeof optionalString>,
   prefecture: Infer<typeof optionalString>,
-  city: Infer<typeof optionalString>,
+  city: Infer<typeof optionalString>,  
   address: Infer<typeof optionalString>,
-  role: Infer<typeof roles>[],
   status: Infer<typeof status>
+}
+
+export type AdminUser = {
+  role: Infer<typeof adminRoles>,
+  user_id: Id<"user">,
+  userData: UserData
 }
 
 export type Student = {

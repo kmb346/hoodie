@@ -23,11 +23,13 @@ import type * as mutations_class_session from "../mutations/class_session.js";
 import type * as mutations_location from "../mutations/location.js";
 import type * as mutations_room from "../mutations/room.js";
 import type * as mutations_session from "../mutations/session.js";
+import type * as mutations_staff from "../mutations/staff.js";
 import type * as mutations_student from "../mutations/student.js";
 import type * as mutations_user from "../mutations/user.js";
 import type * as queries_class from "../queries/class.js";
 import type * as queries_location from "../queries/location.js";
 import type * as queries_session from "../queries/session.js";
+import type * as queries_staff from "../queries/staff.js";
 import type * as queries_student from "../queries/student.js";
 import type * as queries_user from "../queries/user.js";
 
@@ -50,11 +52,13 @@ declare const fullApi: ApiFromModules<{
   "mutations/location": typeof mutations_location;
   "mutations/room": typeof mutations_room;
   "mutations/session": typeof mutations_session;
+  "mutations/staff": typeof mutations_staff;
   "mutations/student": typeof mutations_student;
   "mutations/user": typeof mutations_user;
   "queries/class": typeof queries_class;
   "queries/location": typeof queries_location;
   "queries/session": typeof queries_session;
+  "queries/staff": typeof queries_staff;
   "queries/student": typeof queries_student;
   "queries/user": typeof queries_user;
 }>;

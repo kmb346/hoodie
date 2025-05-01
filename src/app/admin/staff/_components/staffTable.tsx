@@ -23,12 +23,12 @@ export function StaffTable({ users }: { users: AdminUser[] }) {
         </TableHeader>
         <TableBody>
           {users.map((user) => (
-            <TableRow key={user._id}>
-              <TableCell>{user.first_name}</TableCell>
-              <TableCell>{user.last_name}</TableCell>
-              <TableCell>{user.email}</TableCell>
+            <TableRow key={user.user_id}>
+              <TableCell>{user.userData.first_name}</TableCell>
+              <TableCell>{user.userData.last_name}</TableCell>
+              <TableCell>{user.userData.email}</TableCell>
               <TableCell>{user.role.join(", ")}</TableCell>
-              <TableCell>{user.status}</TableCell>
+              <TableCell>{user.userData.status}</TableCell>
             </TableRow>
           ))}
         </TableBody>

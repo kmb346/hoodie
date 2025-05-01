@@ -4,7 +4,7 @@ import { type Id } from "~/convex/_generated/dataModel";
 
 const emailValidator = brandedString("email");
 const stringValidator = v.string();
-const roles = v.union(v.literal("user"), v.literal("teacher"), v.literal("admin"));
+const roles = v.union(v.literal("teacher"), v.literal("admin"));
 
 export type Roles = Infer<typeof roles>;
 

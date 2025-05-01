@@ -1,16 +1,24 @@
 ## TODO NEXT
+[ ] - Move role to staff table
 [ ] - Admin dashboard
 [ ] - Teacher dashboard
 [ ] - Top page (AI)
 
+
+********************
+## Move role to staff table:
+
+[ ] - verifyAdmin() function for authorization before database actions 
+[x] - update auth to check isStaff() function and redirect 
+
+********************
+
+## Classes Area
+[ ] - Class Page with individual class information:
+      - 
+
 ## Dialog forms
-[x] - Location - postal code custom input field
-[x] - Student - Custom birthdate field
-[x] - Student - get all classes and add class select to newStudentDialog
-[x] - Student - Display class name instead of id
-[x] - Class - Day and time fields
-[ ] - Staff - postal code and address fields
-[x] - Student - fix createStudent useMutation implementation
+[x] - Staff - [x] - postal code and [x] - address fields
 [ ] - Class - Teacher Select component
 [ ] - ALL - Edit button in left-most column
 [ ] - Edit dialog with current data preloaded
@@ -30,3 +38,4 @@
 
 [ ] - Send password setup link -- Resend??
 [ ] - Email link validation
+

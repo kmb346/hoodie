@@ -9,7 +9,7 @@ import { fetchQuery } from "convex/nextjs";
 export default async function PrivatePage() {
   
   const currentUser = await getCurrentUser({ redirectIfNotFound: true })  
-  const userRoles = await fetchQuery(api.queries.user.getUserRoles, { id: currentUser.userId })
+  const userRoles = await fetchQuery(api.queries.staff.getUserRoles, { id: currentUser.userId })
 
   return (
     <div className="container mx-auto p-4">

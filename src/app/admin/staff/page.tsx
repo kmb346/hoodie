@@ -4,7 +4,7 @@ import { fetchQuery } from "convex/nextjs";
 import { api } from "~/convex/_generated/api";
 
 export default async function Page() {
-  const staff = await fetchQuery(api.queries.user.getStaffUsers);
+  const staff = await fetchQuery(api.queries.staff.getStaffWithUserData);
   
   return ( 
     <div className="mx-14">
