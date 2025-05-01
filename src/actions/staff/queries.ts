@@ -7,6 +7,6 @@ import { verifyAdmin } from "~/auth/core/session";
 export async function getAllStaff() {
   if (! await verifyAdmin()) return "Unauthorized!";
   
-  return await fetchQuery(api.queries.user.getStaffUsers, {});
+  return await fetchQuery(api.queries.staff.getStaffUsers, {});
 
 }
