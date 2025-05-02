@@ -33,11 +33,9 @@ export default async function HomePage() {
             <Button asChild variant="outline">
               <Link href="/private">Private Page</Link>
             </Button>
-            {fullUser.role?.includes("admin") && (
-              <Button asChild variant="outline">
-                <Link href="/admin">Admin Page</Link>
-              </Button>
-            )}
+            <Button asChild variant="outline">
+              <Link href="/admin">Admin Page</Link>
+            </Button>
             <SignOutButton />
             
           </CardFooter>
