@@ -71,7 +71,7 @@ export const getStaffWithUserData = query(async (ctx) => {
 });
 
 // Takes a user_id and checks if user is staff and has proper auth level
-export const isAuthorized = query({
+/*export const isAuthorized = query({
   args: { 
     id: v.id("user"),
     min_role: v.string()
@@ -79,7 +79,7 @@ export const isAuthorized = query({
   handler: async (ctx, args) => {
     
   }
-})
+})*/
 
 export const getStaffUsers = query({
   args: {},

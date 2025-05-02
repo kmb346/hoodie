@@ -29,7 +29,7 @@ export async function signIn(formData: signInSchema) {
 
     if (staffUser) {
       const getHighestRole = (rolesArray: Roles[]) => {
-        if (rolesArray && rolesArray.includes("admin")) { 
+        if (rolesArray?.includes("admin")) { 
           return "admin"; 
         } else {
           return "teacher";
