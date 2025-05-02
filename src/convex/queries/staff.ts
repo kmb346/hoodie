@@ -90,10 +90,13 @@ export const getStaffUsers = query({
 });
 
 export const getUserRoles = query({
-  args: { id: v.id("staff") },
+  args: { id: v.id("user") },
   handler: async (ctx, args) => {
-    const user = await ctx.db.get(args.id);
-
+    const user = await ctx.db
+      .query("staff")
+      .withIndex("user_id", (q) => q.eq("user_id", args.id))
+      .first();
+    
     return user?.role;
   }
 })
