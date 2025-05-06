@@ -1,14 +1,18 @@
 ## TODO NEXT
+[ ] - Localization
 [ ] - Move role to staff table
 [ ] - Admin dashboard
 [ ] - Teacher dashboard
 [ ] - Top page (AI)
 
+********************
+**LOCALIZATION**
+[ ] - Fix eslint errors in i18n/request.ts file (line 21)
 
 ********************
 ## Move role to staff table:
 
-[ ] - verifyAdmin() function for authorization before database actions 
+[x] - verifyAdmin() function for authorization before database actions 
 [x] - update auth to check isStaff() function and redirect 
 
 ********************
