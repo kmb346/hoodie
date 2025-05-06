@@ -1,0 +1,16 @@
+{
+  "Homepage": {
+    "title": "Hello World",
+    "button": "English Button"
+  },
+  "dashboard": {
+    "admin": {
+      "add_student_button": "Add Student",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "grade": "Grade",
+      "class": "Class",
+      "status": "Status"
+    }
+  }
+}

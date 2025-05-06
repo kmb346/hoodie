@@ -1,0 +1,16 @@
+{
+  "Homepage": {
+    "title": "こんにちは皆さん！",
+    "button": "日本語のボタン"
+  },
+  "dashboard": {
+    "admin": {
+      "add_student_button": "生徒追加",
+      "first_name": "名前",
+      "last_name": "名字",
+      "grade": "グレード",
+      "class": "クラス名",
+      "status": "ステータス"
+    }
+  }
+}

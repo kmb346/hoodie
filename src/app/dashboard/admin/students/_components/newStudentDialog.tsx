@@ -34,8 +34,11 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "convex/react";
 import { api } from "~/convex/_generated/api";
 import { calculateTimestamp } from "~/lib/calculateTimestamp";
+import { useTranslations } from "next-intl";
 
 export function NewStudentDialog({ classes }: { classes: Record<string, string>[] }) {
+
+  const t = useTranslations("dashboard.admin");
 
   const form = useForm<Student>({
     defaultValues: {
@@ -148,7 +151,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="mb-4" asChild>
-        <Button variant="outline"><UserIcon /> Add Student</Button>
+        <Button variant="outline"><UserIcon />{t('add_student_button')}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

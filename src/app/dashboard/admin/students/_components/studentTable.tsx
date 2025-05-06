@@ -8,17 +8,21 @@ import {
 } from "~/components/ui/table";
 import { type Student } from "~/actions/schemas";
 
-export function StudentTable({ students, classes }: { students: Student[], classes: Record<string, string>[] }) {
+export function StudentTable(
+  { students, classes, t }: 
+  { students: Student[], classes: Record<string, string>[], t: Function }
+) {
+
   return (
     <>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>First Name</TableHead>
-            <TableHead>Last Name</TableHead>
-            <TableHead>Grade</TableHead>
-            <TableHead>Class</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead>{t('first_name')}</TableHead>
+            <TableHead>{t('last_name')}</TableHead>
+            <TableHead>{t('grade')}</TableHead>
+            <TableHead>{t('class')}</TableHead>
+            <TableHead>{t('status')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
