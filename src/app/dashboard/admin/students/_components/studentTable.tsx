@@ -7,11 +7,13 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { type Student } from "~/actions/schemas";
+import { useTranslations } from "next-intl";
 
 export function StudentTable(
-  { students, classes, t }: 
-  { students: Student[], classes: Record<string, string>[], t: Function }
+  { students, classes }: 
+  { students: Student[], classes: Record<string, string>[] }
 ) {
+  const t = useTranslations("dashboard.admin");
 
   return (
     <>
