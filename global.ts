@@ -1,4 +1,4 @@
-import {locales} from '~/config';
+import { locales } from '~/config';
 import messages from './messages/en.json';
 
 declare module 'next-intl' {
