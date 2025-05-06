@@ -3,6 +3,10 @@ import { hasLocale } from "next-intl";
 import { defaultLocale, locales } from "../config";
 import { getUserLocale } from "~/db";
 
+interface ImportedMeassages {
+  default: Record<string, string>;
+}
+
 export default getRequestConfig(async ({ requestLocale } ) => {
   // Read from potential `[locale]` segment
   let candidate = await requestLocale;
@@ -16,10 +20,10 @@ export default getRequestConfig(async ({ requestLocale } ) => {
     ? candidate
     : defaultLocale;
 
-  const messages = (await import(`../../messages/${locale}.json`)).default as Record<string, string>;
+  const messages = await import(`../../messages/${locale}.json`) as ImportedMeassages;
 
   return {
     locale,
-    messages
+    messages: messages.default
   };
 });
