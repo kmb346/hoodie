@@ -20,14 +20,17 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import { UserIcon } from '@heroicons/react/24/solid';
+import { PlusIcon } from '@heroicons/react/24/solid';
 import { Input } from "~/components/ui/input";
 import { type Location } from "~/actions/schemas";
 import { useRouter } from "next/navigation";
 import { useMutation } from "convex/react";
 import { api } from "~/convex/_generated/api";
+import { useTranslations } from "next-intl";
 
 export function NewLocationDialog() {
+
+  const t = useTranslations("dashboard.admin.location");
 
   const form = useForm<Location & { postalPart1: string; postalPart2: string }>({
     defaultValues: {
@@ -95,7 +98,7 @@ export function NewLocationDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="mb-4" asChild>
-        <Button variant="outline"><UserIcon /> Add Location</Button>
+        <Button variant="outline"><PlusIcon />{t("add_location_button")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

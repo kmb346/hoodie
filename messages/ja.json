@@ -3,14 +3,55 @@
     "title": "こんにちは皆さん！",
     "button": "日本語のボタン"
   },
+  "public": {
+    "signin_button": "ログイン"
+  },
   "dashboard": {
+    "general": {
+      "signout_button": "ログアウト"
+    },
     "admin": {
-      "add_student_button": "生徒追加",
-      "first_name": "名前",
-      "last_name": "名字",
-      "grade": "グレード",
-      "class": "クラス名",
-      "status": "ステータス"
+      "nav": {
+        "home": "ホーム",
+        "students": "生徒",
+        "staff": "スタッフ",
+        "classes": "クラス",
+        "locations": "ロケーション"
+      },
+      "student": {
+        "add_student_button": "生徒追加",
+        "first_name": "名前",
+        "last_name": "名字",
+        "grade": "グレード",
+        "class": "クラス名",
+        "status": "ステータス"
+      },
+      "staff": {
+        "add_staff_button": "スタッフ追加",
+        "first_name": "名前",
+        "last_name": "名字",
+        "email": "メールアドレス",
+        "roles": "役割",
+        "status": "ステータス"
+      },
+      "class": {
+        "add_class_button": "クラス追加",
+        "class_name": "クラス名",
+        "day": "クラス日",
+        "time": "時間",
+        "teacher": "先生",
+        "student_limit": "生徒制限"
+      },
+      "location": {
+        "add_location_button": "ロケーション追加",
+        "location_name": "名前",
+        "phone": "電話番号",
+        "prefecture": "都道府県",
+        "city": "市",
+        "postal_code": "郵便番号",
+        "address": "住所",
+        "building": "ビル名"
+      }
     }
   }
 }

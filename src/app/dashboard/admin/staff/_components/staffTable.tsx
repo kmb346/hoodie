@@ -7,18 +7,22 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { type AdminUser } from "~/actions/schemas";
+import { useTranslations } from "next-intl";
 
 export function StaffTable({ users }: { users: AdminUser[] }) {
+  
+  const t = useTranslations("dashboard.admin.staff");
+
   return (
     <>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>First Name</TableHead>
-            <TableHead>Last Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Roles</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead>{t("first_name")}</TableHead>
+            <TableHead>{t("last_name")}</TableHead>
+            <TableHead>{t("email")}</TableHead>
+            <TableHead>{t("roles")}</TableHead>
+            <TableHead>{t("status")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

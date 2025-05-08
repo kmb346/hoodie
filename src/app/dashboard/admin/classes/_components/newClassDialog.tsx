@@ -20,15 +20,18 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import { UserIcon } from '@heroicons/react/24/solid';
+import { PlusIcon } from '@heroicons/react/24/solid';
 import { Input } from "~/components/ui/input";
 import { type ClassSchema, DAYS, TIMES } from "~/actions/schemas";
 import { useRouter } from "next/navigation";
 import { useMutation } from "convex/react";
 import { api } from "~/convex/_generated/api";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
+import { useTranslations } from "next-intl";
 
 export function NewClassDialog() {
+
+  const t = useTranslations("dashboard.admin.class");
 
   const form = useForm<ClassSchema>({
     defaultValues: {
@@ -83,7 +86,7 @@ export function NewClassDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="mb-4" asChild>
-        <Button variant="outline"><UserIcon /> Add Class</Button>
+        <Button variant="outline"><PlusIcon /> {t("add_class_button")}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

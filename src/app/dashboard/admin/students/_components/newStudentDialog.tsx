@@ -27,7 +27,7 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "~/components/ui/select";
-import { UserIcon } from '@heroicons/react/24/solid';
+import { PlusIcon } from '@heroicons/react/24/solid';
 import { Input } from "~/components/ui/input";
 import { type Student, MONTHS } from "~/actions/schemas";
 import { useRouter } from "next/navigation";
@@ -38,7 +38,7 @@ import { useTranslations } from "next-intl";
 
 export function NewStudentDialog({ classes }: { classes: Record<string, string>[] }) {
 
-  const t = useTranslations("dashboard.admin");
+  const t = useTranslations("dashboard.admin.student");
 
   const form = useForm<Student>({
     defaultValues: {
@@ -151,7 +151,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="mb-4" asChild>
-        <Button variant="outline"><UserIcon />{t('add_student_button')}</Button>
+        <Button variant="outline"><PlusIcon />{t('add_student_button')}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -178,7 +178,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                     name="first_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>First Name <span className="text-red-500">*</span></FormLabel>
+                        <FormLabel>{t("first_name")} <span className="text-red-500">*</span></FormLabel>
                         <FormControl>
                           <Input {...field} />
                         </FormControl>
@@ -193,7 +193,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                     name="last_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Last Name <span className="text-red-500">*</span></FormLabel>
+                        <FormLabel>{t("last_name")} <span className="text-red-500">*</span></FormLabel>
                         <FormControl>
                           <Input {...field} />
                         </FormControl>
@@ -210,7 +210,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                   name="default_class"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Class</FormLabel>
+                      <FormLabel>{t("class")}</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
@@ -236,7 +236,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                   name="grade"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Grade</FormLabel>
+                      <FormLabel>{t("grade")}</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>

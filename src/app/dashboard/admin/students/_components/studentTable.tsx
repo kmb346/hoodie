@@ -13,7 +13,7 @@ export function StudentTable(
   { students, classes }: 
   { students: Student[], classes: Record<string, string>[] }
 ) {
-  const t = useTranslations("dashboard.admin");
+  const t = useTranslations("dashboard.admin.student");
 
   return (
     <>

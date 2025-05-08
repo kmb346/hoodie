@@ -7,20 +7,23 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { type Location } from "~/actions/schemas";
+import { useTranslations } from "next-intl";
 
 export function LocationTable({ locations }: { locations: Location[] }) {
+  const t = useTranslations("dashboard.admin.location");
+  
   return (
-<>
+    <>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Phone</TableHead>
-            <TableHead>Prefecture</TableHead>
-            <TableHead>City</TableHead>
-            <TableHead>Postal Code</TableHead>
-            <TableHead>Address</TableHead>
-            <TableHead>Building</TableHead>
+            <TableHead>{t("location_name")}</TableHead>
+            <TableHead>{t("phone")}</TableHead>
+            <TableHead>{t("prefecture")}</TableHead>
+            <TableHead>{t("city")}</TableHead>
+            <TableHead>{t("postal_code")}</TableHead>
+            <TableHead>{t("address")}</TableHead>
+            <TableHead>{t("building")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

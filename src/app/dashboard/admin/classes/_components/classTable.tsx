@@ -7,18 +7,22 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { type ClassSchema } from "~/actions/schemas";
+import { useTranslations } from "next-intl";
 
 export function ClassTable({ classes }: { classes: ClassSchema[] }) {
+
+  const t = useTranslations("dashboard.admin.class");
+
   return (
     <>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Day</TableHead>
-            <TableHead>Time</TableHead>
-            <TableHead>Teacher</TableHead>
-            <TableHead>Student Limit</TableHead>
+            <TableHead>{t("class_name")}</TableHead>
+            <TableHead>{t("day")}</TableHead>
+            <TableHead>{t("time")}</TableHead>
+            <TableHead>{t("teacher")}</TableHead>
+            <TableHead>{t("student_limit")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

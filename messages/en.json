@@ -3,14 +3,55 @@
     "title": "Hello World",
     "button": "English Button"
   },
+  "public": {
+    "signin_button": "Sign In"
+  },
   "dashboard": {
+    "general": {
+      "signout_button": "Log Out"
+    },
     "admin": {
-      "add_student_button": "Add Student",
-      "first_name": "First Name",
-      "last_name": "Last Name",
-      "grade": "Grade",
-      "class": "Class",
-      "status": "Status"
+      "nav": {
+        "home": "Home",
+        "students": "Students",
+        "staff": "Staff",
+        "classes": "Classes",
+        "locations": "Locations"
+      },
+      "student": {
+        "add_student_button": "Add Student",
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "grade": "Grade",
+        "class": "Class",
+        "status": "Status"
+      },
+      "staff": {
+        "add_staff_button": "Add Staff",
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "email": "Email",
+        "roles": "Roles",
+        "status": "Status"
+      },
+      "class": {
+        "add_class_button": "Add Class",
+        "class_name": "Name",
+        "day": "Day",
+        "time": "time",
+        "teacher": "Teacher",
+        "student_limit": "Student Limit"
+      },
+      "location": {
+        "add_location_button": "Add Location",
+        "location_name": "Name",
+        "phone": "phone",
+        "prefecture": "Prefecture",
+        "city": "City",
+        "postal_code": "Postal Code",
+        "address": "Address",
+        "building": "Building"
+      }
     }
   }
 }

@@ -9,18 +9,22 @@ import {
   BuildingStorefrontIcon,
   AcademicCapIcon             
 } from '@heroicons/react/24/solid';
+import { useTranslations } from "next-intl";
 
 
-const links = [
-  { name: "Home", href: "/dashboard/admin", icon: HomeIcon },
-  { name: "Students", href: "/dashboard/admin/students", icon: UserGroupIcon },
-  { name: "Staff", href: "/dashboard/admin/staff", icon: UserIcon },
-  { name: "Classes", href: "/dashboard/admin/classes", icon: AcademicCapIcon },
-  { name: "Locations", href: "/dashboard/admin/locations", icon: BuildingStorefrontIcon },
-];
+
 
 export default function NavLinks() {
+  
   const pathname = usePathname();
+  const t = useTranslations("dashboard.admin.nav");
+  const links = [
+    { name: t("home"), href: "/dashboard/admin", icon: HomeIcon },
+    { name: t("students"), href: "/dashboard/admin/students", icon: UserGroupIcon },
+    { name: t("staff"), href: "/dashboard/admin/staff", icon: UserIcon },
+    { name: t("classes"), href: "/dashboard/admin/classes", icon: AcademicCapIcon },
+    { name: t("locations"), href: "/dashboard/admin/locations", icon: BuildingStorefrontIcon },
+  ];
 
   return (
     <div className="flex h-full">

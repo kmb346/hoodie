@@ -2,11 +2,14 @@
 
 import { Button } from "~/components/ui/button"
 import { signOut } from "~/auth/actions"
+import { useTranslations } from "next-intl";
 
 export function SignOutButton() {
+  const t = useTranslations("dashboard.general")
+
   return (
     <Button variant="destructive" onClick={async () => await signOut()}>
-      Log Out
+      {t("signout_button")}
     </Button>
   )
 }

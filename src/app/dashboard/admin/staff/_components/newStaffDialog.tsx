@@ -27,7 +27,7 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "~/components/ui/select";
-import { UserIcon } from '@heroicons/react/24/solid';
+import { PlusIcon } from '@heroicons/react/24/solid';
 import { Input } from "~/components/ui/input";
 import { Checkbox } from "~/components/ui/checkbox";
 import { MONTHS, type AdminUser } from "~/actions/schemas";
@@ -37,8 +37,11 @@ import { api } from "~/convex/_generated/api";
 
 import { calculateTimestamp } from "~/lib/calculateTimestamp";
 import { generateSalt, hashPassword } from "~/auth/core/passwordHasher";
+import { useTranslations } from "next-intl";
 
 export function NewStaffDialog() {
+
+  const t = useTranslations("dashboard.admin.staff");
 
   const form = useForm<AdminUser & { 
     role: string[]; 
@@ -188,7 +191,7 @@ export function NewStaffDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="mb-4" asChild>
-        <Button variant="outline"><UserIcon /> Add Staff</Button>
+        <Button variant="outline"><PlusIcon />{t("add_staff_button")}</Button>
       </DialogTrigger>
       <DialogContent className="overflow-y-scroll max-h-screen min-w-[50%]">
         <DialogHeader>
@@ -214,7 +217,7 @@ export function NewStaffDialog() {
                     name="userData.first_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>First Name <span className="text-red-500">*</span></FormLabel>
+                        <FormLabel>{t("first_name")} <span className="text-red-500">*</span></FormLabel>
                         <FormControl>
                           <Input {...field} />
                         </FormControl>
@@ -229,7 +232,7 @@ export function NewStaffDialog() {
                     name="userData.last_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Last Name <span className="text-red-500">*</span></FormLabel>
+                        <FormLabel>{t("last_name")}<span className="text-red-500">*</span></FormLabel>
                         <FormControl>
                           <Input {...field} />
                         </FormControl>
@@ -245,7 +248,7 @@ export function NewStaffDialog() {
                   name="userData.email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email <span className="text-red-500">*</span></FormLabel>
+                      <FormLabel>{t("email")}<span className="text-red-500">*</span></FormLabel>
                       <FormControl>
                         <Input type="email" {...field} />
                       </FormControl>
@@ -255,7 +258,7 @@ export function NewStaffDialog() {
                 />
               </div>
               <div className="grid gap-2">
-                <FormLabel>Role <span className="text-red-500">*</span></FormLabel>
+                <FormLabel>{t("roles")}<span className="text-red-500">*</span></FormLabel>
                 {roles.map((role) => (
                   <FormField
                     key={role.id}

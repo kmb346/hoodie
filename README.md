@@ -7,7 +7,11 @@
 
 ********************
 **LOCALIZATION**
-[ ] - Fix eslint errors in i18n/request.ts file (line 21)
+[ ] - Add localizations for admin dashboard
+            [x] - staff page
+            [x] - class page
+            [x] - location page
+            [x] - nav bar
 
 ********************
 ## Move role to staff table:
