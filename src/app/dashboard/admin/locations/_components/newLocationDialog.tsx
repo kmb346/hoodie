@@ -31,6 +31,7 @@ import { useTranslations } from "next-intl";
 export function NewLocationDialog() {
 
   const t = useTranslations("dashboard.admin.location");
+  const u = useTranslations("dashboard.general");
 
   const form = useForm<Location & { postalPart1: string; postalPart2: string }>({
     defaultValues: {
@@ -102,9 +103,9 @@ export function NewLocationDialog() {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Location</DialogTitle>
+          <DialogTitle>{t("add_location")}</DialogTitle>
           <DialogDescription>
-            Add a school location.
+            {t("add_new_location")}
           </DialogDescription>
         </DialogHeader>
 
@@ -117,14 +118,14 @@ export function NewLocationDialog() {
             className="space-y-4"
           >
             <div className="grid gap-4 py-4">
-              <h4 className="font-semibold">Required Fields</h4>
+              <h4 className="font-semibold">{u("required")}</h4>
               <div className="grid gap-2">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name <span className="text-red-500">*</span></FormLabel>
+                      <FormLabel>{t("location_name")}<span className="text-red-500">*</span></FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -139,7 +140,7 @@ export function NewLocationDialog() {
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone Number <span className="text-red-500">*</span></FormLabel>
+                      <FormLabel>{t("phone")}<span className="text-red-500">*</span></FormLabel>
                       <FormControl>
                         <Input type="text" {...field} />
                       </FormControl>
@@ -150,9 +151,9 @@ export function NewLocationDialog() {
               </div>
             </div>
             <div className="grid gap-4 py-4">
-              <h4 className="font-semibold">Optional Fields</h4>
+              <h4 className="font-semibold">{u("optional")}</h4>
               <div>
-                <FormLabel>Postal Code</FormLabel>
+                <FormLabel>{u("postal_code")}</FormLabel>
                 <div className="flex items-center gap-2">
                   <Controller
                     name="postalPart1"
@@ -200,7 +201,7 @@ export function NewLocationDialog() {
                   name="prefecture"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Prefecture</FormLabel>
+                      <FormLabel>{u("prefecture")}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -215,7 +216,7 @@ export function NewLocationDialog() {
                   name="city"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>City</FormLabel>
+                      <FormLabel>{u("city")}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -230,7 +231,7 @@ export function NewLocationDialog() {
                   name="address"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Address</FormLabel>
+                      <FormLabel>{u("address")}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -246,7 +247,7 @@ export function NewLocationDialog() {
                   name="building"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Building</FormLabel>
+                      <FormLabel>{u("building")}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -260,7 +261,7 @@ export function NewLocationDialog() {
                 type="submit"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Adding..." : "Add Location"}
+                {isSubmitting ? t("adding") : t("add_location")}
               </Button>
             </DialogFooter>
           </form>

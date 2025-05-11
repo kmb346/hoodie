@@ -8,7 +8,18 @@
   },
   "dashboard": {
     "general": {
-      "signout_button": "ログアウト"
+      "signout_button": "ログアウト",
+      "required": "必須のフィールド",
+      "optional": "任意のフィールド",
+      "birthdate": "生年月日",
+      "year": "年",
+      "month": "月",
+      "day": "日",
+      "prefecture": "都道府県",
+      "city": "市",
+      "postal_code": "郵便番号",
+      "address": "住所",
+      "building": "ビル名"
     },
     "admin": {
       "nav": {
@@ -24,7 +35,12 @@
         "last_name": "名字",
         "grade": "グレード",
         "class": "クラス名",
-        "status": "ステータス"
+        "status": "ステータス",
+        "add_student": "生徒追加",
+        "add_new_student": "新しい生徒を追加します。",
+        "class_select_button": "クラス選択",
+        "grade_select_button": "グレード選択",
+        "adding": "処理中..."
       },
       "staff": {
         "add_staff_button": "スタッフ追加",
@@ -32,7 +48,10 @@
         "last_name": "名字",
         "email": "メールアドレス",
         "roles": "役割",
-        "status": "ステータス"
+        "status": "ステータス",
+        "add_new_staff": "新しいスタッフを追加します。",
+        "add_staff": "スタッフ追加",
+        "adding": "処理中..."
       },
       "class": {
         "add_class_button": "クラス追加",
@@ -40,17 +59,20 @@
         "day": "クラス日",
         "time": "時間",
         "teacher": "先生",
-        "student_limit": "生徒制限"
+        "student_limit": "生徒制限",
+        "day_select_button": "日選択",
+        "time_select_button": "時間選択",
+        "add_new_class": "新しいクラスを追加します。",
+        "add_class": "クラス追加",
+        "adding": "処理中..."
       },
       "location": {
         "add_location_button": "ロケーション追加",
         "location_name": "名前",
         "phone": "電話番号",
-        "prefecture": "都道府県",
-        "city": "市",
-        "postal_code": "郵便番号",
-        "address": "住所",
-        "building": "ビル名"
+        "add_new_location": "新しいロケーションを追加します。",
+        "add_location": "ロケーション追加",
+        "adding": "処理中..."
       }
     }
   }

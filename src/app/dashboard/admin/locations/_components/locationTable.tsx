@@ -11,6 +11,7 @@ import { useTranslations } from "next-intl";
 
 export function LocationTable({ locations }: { locations: Location[] }) {
   const t = useTranslations("dashboard.admin.location");
+  const u = useTranslations("dashboard.general");
   
   return (
     <>
@@ -19,11 +20,11 @@ export function LocationTable({ locations }: { locations: Location[] }) {
           <TableRow>
             <TableHead>{t("location_name")}</TableHead>
             <TableHead>{t("phone")}</TableHead>
-            <TableHead>{t("prefecture")}</TableHead>
-            <TableHead>{t("city")}</TableHead>
-            <TableHead>{t("postal_code")}</TableHead>
-            <TableHead>{t("address")}</TableHead>
-            <TableHead>{t("building")}</TableHead>
+            <TableHead>{u("prefecture")}</TableHead>
+            <TableHead>{u("city")}</TableHead>
+            <TableHead>{u("postal_code")}</TableHead>
+            <TableHead>{u("address")}</TableHead>
+            <TableHead>{u("building")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

@@ -39,6 +39,7 @@ import { useTranslations } from "next-intl";
 export function NewStudentDialog({ classes }: { classes: Record<string, string>[] }) {
 
   const t = useTranslations("dashboard.admin.student");
+  const u = useTranslations("dashboard.general");
 
   const form = useForm<Student>({
     defaultValues: {
@@ -155,9 +156,9 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Student</DialogTitle>
+          <DialogTitle>{t("add_student")}</DialogTitle>
           <DialogDescription>
-            Add a new student.
+            {t("add_new_student")}
           </DialogDescription>
         </DialogHeader>
 
@@ -170,7 +171,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
             className="space-y-4"
           >
             <div className="grid gap-4 py-4">
-              <h4 className="font-semibold">Required Fields</h4>
+              <h4 className="font-semibold">{u("required")}</h4>
               <div className="flex gap-4">
                 <div className="grid gap-2">
                   <FormField
@@ -203,7 +204,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                   />
                 </div>
               </div>
-              <h4 className="font-semibold">Optional Fields</h4>
+              <h4 className="font-semibold">{u("optional")}</h4>
               <div>
                 <FormField
                   control={form.control}
@@ -214,7 +215,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select Class"/>
+                            <SelectValue placeholder={t("class_select_button")}/>
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -240,7 +241,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select Grade"/>
+                            <SelectValue placeholder={t("grade_select_button")}/>
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -262,7 +263,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                   name="birthdate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Birthdate</FormLabel>
+                      <FormLabel>{u("birthdate")}</FormLabel>
                       <div className="flex items-center gap-2">
                         {/* Year Select */}
                         <Select
@@ -273,7 +274,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                           }}
                         >
                           <SelectTrigger className="w-[110px]">
-                            <SelectValue placeholder="Year" />
+                            <SelectValue placeholder={u("year")} />
                           </SelectTrigger>
                           <SelectContent>
                             {years.map((year) => (
@@ -292,7 +293,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                           }}
                         >
                           <SelectTrigger className="w-[110px]">
-                            <SelectValue placeholder="Month" />
+                            <SelectValue placeholder={u("month")} />
                           </SelectTrigger>
                           <SelectContent>
                             {MONTHS.map((month, index) => (
@@ -315,7 +316,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                           disabled={!selectedMonth || !selectedYear}
                         >
                           <SelectTrigger className="w-[90px]">
-                            <SelectValue placeholder="Day" />
+                            <SelectValue placeholder={u("day")} />
                           </SelectTrigger>
                           <SelectContent>
                             {daysInMonth.map((day) => (
@@ -340,7 +341,7 @@ export function NewStudentDialog({ classes }: { classes: Record<string, string>[
                 type="submit"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Adding..." : "Add Student"}
+                {isSubmitting ? "Adding..." : t("add_student")}
               </Button>
             </DialogFooter>
           </form>

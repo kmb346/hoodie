@@ -42,6 +42,7 @@ import { useTranslations } from "next-intl";
 export function NewStaffDialog() {
 
   const t = useTranslations("dashboard.admin.staff");
+  const u = useTranslations("dashboard.general");
 
   const form = useForm<AdminUser & { 
     role: string[]; 
@@ -197,9 +198,9 @@ export function NewStaffDialog() {
         <DialogHeader>
           {error && <div className="text-red-500 mb-4">{error}</div>}
           {success && <div className="text-green-500 mb-4">{success}</div>}
-          <DialogTitle>Add Staff</DialogTitle>
+          <DialogTitle>{t("add_staff")}</DialogTitle>
           <DialogDescription>
-            Add a new staff member to the database
+            {t("add_new_staff")}
           </DialogDescription>
         </DialogHeader>
 
@@ -209,7 +210,7 @@ export function NewStaffDialog() {
             className="space-y-4"
           >
             <div className="grid gap-4 py-4">
-            <h4 className="font-semibold">Required Fields</h4>
+            <h4 className="font-semibold">{u("required")}</h4>
               <div className="flex gap-4">
                 <div className="grid gap-2">
                   <FormField
@@ -295,14 +296,14 @@ export function NewStaffDialog() {
               </div>
             </div>
             <div className="grid gap-4 py-4">
-              <h4 className="font-semibold">Optional Fields</h4>
+              <h4 className="font-semibold">{u("optional")}</h4>
               <div>
                 <Controller
                   control={form.control}
                   name="birthdate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Birthdate</FormLabel>
+                      <FormLabel>{u("birthdate")}</FormLabel>
                       <div className="flex items-center gap-2">
                         {/* Year Select */}
                         <Select
@@ -313,7 +314,7 @@ export function NewStaffDialog() {
                           }}
                         >
                           <SelectTrigger className="w-[110px]">
-                            <SelectValue placeholder="Year" />
+                            <SelectValue placeholder={u("year")} />
                           </SelectTrigger>
                           <SelectContent>
                             {years.map((year) => (
@@ -332,7 +333,7 @@ export function NewStaffDialog() {
                           }}
                         >
                           <SelectTrigger className="w-[110px]">
-                            <SelectValue placeholder="Month" />
+                            <SelectValue placeholder={u("month")} />
                           </SelectTrigger>
                           <SelectContent>
                             {MONTHS.map((month, index) => (
@@ -355,7 +356,7 @@ export function NewStaffDialog() {
                           disabled={!selectedMonth || !selectedYear}
                         >
                           <SelectTrigger className="w-[90px]">
-                            <SelectValue placeholder="Day" />
+                            <SelectValue placeholder={u("day")} />
                           </SelectTrigger>
                           <SelectContent>
                             {daysInMonth.map((day) => (
@@ -375,7 +376,7 @@ export function NewStaffDialog() {
                 />
               </div>
               <div>
-                <FormLabel>Postal Code</FormLabel>
+                <FormLabel>{u("postal_code")}</FormLabel>
                 <div className="flex items-center gap-2">
                   <Controller
                     name="postalPart1"
@@ -423,7 +424,7 @@ export function NewStaffDialog() {
                   name="userData.prefecture"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Prefecture</FormLabel>
+                      <FormLabel>{u("prefecture")}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -438,7 +439,7 @@ export function NewStaffDialog() {
                   name="userData.city"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>City</FormLabel>
+                      <FormLabel>{u("city")}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -453,7 +454,7 @@ export function NewStaffDialog() {
                   name="userData.address"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Address</FormLabel>
+                      <FormLabel>{u("address")}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -468,7 +469,7 @@ export function NewStaffDialog() {
                 type="submit"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Adding..." : "Add Staff"}
+                {isSubmitting ? t("adding") : t("add_staff")}
               </Button>
             </DialogFooter>
           </form>

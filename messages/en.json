@@ -8,7 +8,18 @@
   },
   "dashboard": {
     "general": {
-      "signout_button": "Log Out"
+      "signout_button": "Log Out",
+      "required": "Required Fields",
+      "optional": "Optional Fields",
+      "birthdate": "Birthdate",
+      "year": "Year",
+      "month": "Month",
+      "day": "Day",
+      "prefecture": "Prefecture",
+      "city": "City",
+      "postal_code": "Postal Code",
+      "address": "Address",
+      "building": "Building"
     },
     "admin": {
       "nav": {
@@ -24,7 +35,12 @@
         "last_name": "Last Name",
         "grade": "Grade",
         "class": "Class",
-        "status": "Status"
+        "status": "Status",
+        "add_student": "Add Student",
+        "add_new_student": "Add a new student.",
+        "class_select_button": "Select Class",
+        "grade_select_button": "Select Grade",
+        "adding": "Adding..."
       },
       "staff": {
         "add_staff_button": "Add Staff",
@@ -32,7 +48,10 @@
         "last_name": "Last Name",
         "email": "Email",
         "roles": "Roles",
-        "status": "Status"
+        "status": "Status",
+        "add_new_staff": "Add a new staff member.",
+        "add_staff": "Add Staff",
+        "adding": "Adding..."
       },
       "class": {
         "add_class_button": "Add Class",
@@ -40,17 +59,21 @@
         "day": "Day",
         "time": "time",
         "teacher": "Teacher",
-        "student_limit": "Student Limit"
+        "student_limit": "Student Limit",
+        "day_select_button": "Select Day",
+        "time_select_button": "Select Time",
+        "add_new_class": "Add a new class.",
+        "add_class": "Add class",
+        "adding": "Adding..."
       },
       "location": {
         "add_location_button": "Add Location",
         "location_name": "Name",
         "phone": "phone",
-        "prefecture": "Prefecture",
-        "city": "City",
-        "postal_code": "Postal Code",
-        "address": "Address",
-        "building": "Building"
+        "add_new_location": "Add a new location.",
+        "add_location": "Add Location",
+        "adding": "Adding..."
+        
       }
     }
   }

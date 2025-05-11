@@ -32,6 +32,7 @@ import { useTranslations } from "next-intl";
 export function NewClassDialog() {
 
   const t = useTranslations("dashboard.admin.class");
+  const u = useTranslations("dashboard.general");
 
   const form = useForm<ClassSchema>({
     defaultValues: {
@@ -90,9 +91,9 @@ export function NewClassDialog() {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Class</DialogTitle>
+          <DialogTitle>{t("add_class")}</DialogTitle>
           <DialogDescription>
-            Add a new class to the school.
+            {t("add_new_class")}
           </DialogDescription>
         </DialogHeader>
 
@@ -105,14 +106,14 @@ export function NewClassDialog() {
             className="space-y-4"
           >
             <div className="grid gap-4 py-4">
-              <h4 className="font-semibold">Required Fields</h4>
+              <h4 className="font-semibold">{u("required")}</h4>
               <div className="grid gap-2">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name <span className="text-red-500">*</span></FormLabel>
+                      <FormLabel>{t("class_name")}<span className="text-red-500">*</span></FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -123,21 +124,21 @@ export function NewClassDialog() {
               </div>
             </div>
             <div className="grid gap-4 py-4">
-              <h4 className="font-semibold">Optional Fields</h4>
+              <h4 className="font-semibold">{u("optional")}</h4>
               <div>
                 <FormField
                   control={form.control}
                   name="def_day"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Day</FormLabel>
+                      <FormLabel>{t("day")}</FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select a day" />
+                              <SelectValue placeholder={t("day_select_button")} />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -159,14 +160,14 @@ export function NewClassDialog() {
                   name="def_time"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Time</FormLabel>
+                      <FormLabel>{t("time")}</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a time" />
+                            <SelectValue placeholder={t("time_select_button")} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -188,7 +189,7 @@ export function NewClassDialog() {
                   name="teacher_id"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Teacher</FormLabel>
+                      <FormLabel>{t("teacher")}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -203,7 +204,7 @@ export function NewClassDialog() {
                   name="student_limit"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Student Limit</FormLabel>
+                      <FormLabel>{t("student_limit")}</FormLabel>
                       <FormControl>
                         <Input 
                           type="number"
@@ -225,7 +226,7 @@ export function NewClassDialog() {
                 type="submit"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Adding..." : "Add Class"}
+                {isSubmitting ? t("adding") : t("add_class")}
               </Button>
             </DialogFooter>
           </form>
